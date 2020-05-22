@@ -9,6 +9,15 @@ public class StuResult {
     Date joinDate;
     Date leaveDate;
     int state;
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

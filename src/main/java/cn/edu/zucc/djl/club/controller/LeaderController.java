@@ -30,7 +30,7 @@ public class LeaderController {
         this.collegeRepository = collegeRepository;
     }
 
-
+    //获得成员列表，sx
     @GetMapping("/api/leader/member/{id}")
     @ResponseBody
     public List<StuResult> listAllMember(@PathVariable int id){
@@ -41,6 +41,7 @@ public class LeaderController {
              result.setJoinDate(memberTableEntity.getJoinDate());result.setLeaveDate(memberTableEntity.getLeaveDate());result.setState(memberTableEntity.getState());
 
              String uId = memberTableEntity.getuId();
+             result.setId(uId);
              StudentEntity studentEntity = studentRepository.getOne(uId);
              if(studentEntity.getuId().equals(StudentEntity.currentStudent.getuId()))
                  continue;
@@ -58,14 +59,22 @@ public class LeaderController {
          return stuResults;
     }
 
-    @GetMapping("/api/leader/student/{uid}")
+    //转让社长，sx
+    //传参：社团cid + 被转让成员uid
+    //返回1说明社长转让成功，则该学生失去社长权限（页面可以跳转到“亲爱的XX同学，感谢这段时间的陪伴，再见！）”
+    @GetMapping("/api/leader/member/{cid}/{uidL}/{uidM}")
     @ResponseBody
-    public Student findOne(@PathVariable String uid){
-        StudentEntity studentEntity=studentRepository.getOne(uid);
-        Student student=new Student();
-
-        BeanUtils.copyProperties(studentEntity,student);
-        return student;
+    public int transferLeader(@PathVariable int cid,@PathVariable String uidL,@PathVariable String  uidM){
+        int succeed=-1;
+        succeed=memberRepository.transferMsgLeader(uidL,cid);
+        if(succeed>0){
+            succeed=memberRepository.transferMsgMem(uidM,cid);
+            if(succeed>0)
+                return 1;
+            else
+                return 0;
+        }else
+            return 0;
     }
 
 }
