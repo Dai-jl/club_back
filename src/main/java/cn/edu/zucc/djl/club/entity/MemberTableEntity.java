@@ -68,22 +68,22 @@ public class MemberTableEntity {
 
     @Basic
     @Column(name = "join_date")
-    public Date getCreateDate() {
+    public Date getJoinDate() {
         return joinDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.joinDate = createDate;
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
 
     @Basic
     @Column(name = "leave_date")
-    public Date getUpdateDate() {
+    public Date getLeaveDate() {
         return leaveDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.leaveDate = updateDate;
+    public void setLeaveDate(Date leaveDate) {
+        this.leaveDate = leaveDate;
     }
 
     @Override

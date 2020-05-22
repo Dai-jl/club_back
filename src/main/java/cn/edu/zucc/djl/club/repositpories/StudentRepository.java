@@ -6,4 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface StudentRepository  extends JpaRepository<StudentEntity,String> {
+
+    //通过学号找学生
+    StudentEntity getOne(String uid);
+
 }
