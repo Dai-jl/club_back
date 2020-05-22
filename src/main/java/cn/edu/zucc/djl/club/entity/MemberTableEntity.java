@@ -3,6 +3,7 @@ package cn.edu.zucc.djl.club.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +14,9 @@ public class MemberTableEntity {
     private Integer cId;
     private String uId;
     private String type;
+    private int state;
+    private Date joinDate;
+    private Date leaveDate;
 
     @Id
     @Column(name = "m_id")
@@ -54,6 +58,34 @@ public class MemberTableEntity {
         this.type = type;
     }
 
+    @Basic
+    @Column(name="state")
+    public int getState(){return state;}
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    @Basic
+    @Column(name = "join_date")
+    public Date getCreateDate() {
+        return joinDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.joinDate = createDate;
+    }
+
+    @Basic
+    @Column(name = "leave_date")
+    public Date getUpdateDate() {
+        return leaveDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.leaveDate = updateDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,7 +94,10 @@ public class MemberTableEntity {
         return mId == that.mId &&
                 Objects.equals(cId, that.cId) &&
                 Objects.equals(uId, that.uId) &&
-                Objects.equals(type, that.type);
+                Objects.equals(type, that.type) &&
+                Objects.equals(state,that.state) &&
+                Objects.equals(joinDate,that.joinDate) &&
+                Objects.equals(leaveDate,that.leaveDate);
     }
 
     @Override

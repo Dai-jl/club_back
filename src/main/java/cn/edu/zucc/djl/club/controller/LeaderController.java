@@ -24,7 +24,7 @@ public class LeaderController {
     @GetMapping("/api/leader/member/{id}")
     @ResponseBody
     public List<StudentEntity> listAllMember(@PathVariable int id){
-         List<MemberTableEntity> memberTableEntities = memberRepository.findBycId(id);
+         List<MemberTableEntity> memberTableEntities = memberRepository.findBycIdOrderByStateDesc(id);
          List<StudentEntity> studentEntityList = new ArrayList<>();
          for(int i = 0;i<memberTableEntities.size();i++){
              String uId = memberTableEntities.get(i).getuId();

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<MemberTableEntity,Integer> {
-    List<MemberTableEntity> findBycId(int cid);
+    List<MemberTableEntity> findBycIdOrderByStateDesc(int cid);
 }
