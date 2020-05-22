@@ -26,4 +26,5 @@ public interface MemberRepository extends JpaRepository<MemberTableEntity,Intege
     @Modifying
     int transferMsgMem(String uid,int cid);
 
+
 }

@@ -11,6 +11,7 @@ public class StuResult {
     int state;
     String id;
 
+
     public String getId() {
         return id;
     }
