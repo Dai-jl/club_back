@@ -1,11 +1,16 @@
 package cn.edu.zucc.djl.club.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
 @Table(name = "student", schema = "club", catalog = "")
+
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
+
 public class StudentEntity {
     private String uId;
     private String password;
@@ -13,6 +18,10 @@ public class StudentEntity {
     private String phone;
     private byte[] image;
     private Integer collegeId;
+    public static StudentEntity currentStudent;
+    public static void setCurrentStudent(StudentEntity userEntity){
+        currentStudent = userEntity;
+    }
 
     @Id
     @Column(name = "u_id")
