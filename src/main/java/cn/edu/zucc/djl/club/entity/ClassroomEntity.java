@@ -1,13 +1,10 @@
 package cn.edu.zucc.djl.club.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "classroom", schema = "club", catalog = "")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class ClassroomEntity {
     private int rId;
     private String name;

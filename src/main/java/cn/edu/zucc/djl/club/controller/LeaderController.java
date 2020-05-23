@@ -3,23 +3,17 @@ package cn.edu.zucc.djl.club.controller;
 import cn.edu.zucc.djl.club.entity.CollegeEntity;
 import cn.edu.zucc.djl.club.entity.MemberTableEntity;
 import cn.edu.zucc.djl.club.entity.StudentEntity;
-import cn.edu.zucc.djl.club.formbean.*;
+import cn.edu.zucc.djl.club.formbean.College;
+import cn.edu.zucc.djl.club.formbean.StuResult;
+import cn.edu.zucc.djl.club.formbean.Student;
 import cn.edu.zucc.djl.club.repositpories.CollegeRepository;
 import cn.edu.zucc.djl.club.repositpories.MemberRepository;
 import cn.edu.zucc.djl.club.repositpories.StudentRepository;
-//import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import org.springframework.beans.BeanUtils;
 
 @CrossOrigin
@@ -36,51 +30,39 @@ public class LeaderController {
         this.collegeRepository = collegeRepository;
     }
 
-
     //获得成员列表，sx
-    @GetMapping("/api/leader/member/{id}/{pageIndex}")
+    @GetMapping("/api/leader/member/{id}")
     @ResponseBody
-    public List<StuResult> listAllMember(@PathVariable int id, @PathVariable int pageIndex) throws Exception {
-        //优化使用多表查询，使性能提高
-        //使用limit实现分页
-         int startIndex=10*(pageIndex-1);
-         List<Object[]> memberMsg = memberRepository.getMemList(id,startIndex);
+    public List<StuResult> listAllMember(@PathVariable int id){
+         List<MemberTableEntity> memberTableEntities = memberRepository.findBycIdOrderByStateDesc(id);
+         List<StuResult> stuResults = new ArrayList<>();
+         for(MemberTableEntity memberTableEntity:memberTableEntities){
+             StuResult result=new StuResult();
+             result.setJoinDate(memberTableEntity.getJoinDate());result.setLeaveDate(memberTableEntity.getLeaveDate());result.setState(memberTableEntity.getState());
 
-         List<StuResult> results=StuResult.objectToBean(memberMsg,StuResult.class);
-         return results;
+             String uId = memberTableEntity.getuId();
+             result.setId(uId);
+             StudentEntity studentEntity = studentRepository.getOne(uId);
+             if(studentEntity.getuId().equals(StudentEntity.currentStudent.getuId()))
+                 continue;
+             else{
+                 result.setName(studentEntity.getName());
+                 result.setPhone(studentEntity.getPhone());
 
-           //简单循环
-//         List<StuResult> stuResults = new ArrayList<>();
-//         for(MemberTableEntity memberTableEntity:memberTableEntities){
-//             StuResult result=new StuResult();
-//             result.setJoinDate(memberTableEntity.getJoinDate());result.setLeaveDate(memberTableEntity.getLeaveDate());result.setState(memberTableEntity.getState());
-//
-//             String uId = memberTableEntity.getuId();
-//             result.setId(uId);
-//             StudentEntity studentEntity = studentRepository.getOne(uId);
-//             if(studentEntity.getuId().equals(StudentEntity.currentStudent.getuId()))
-//                 continue;
-//             else{
-//                 result.setName(studentEntity.getName());
-//                 result.setPhone(studentEntity.getPhone());
-//
-//                 int cId=studentEntity.getCollegeId();
-//                 CollegeEntity collegeEntity=collegeRepository.getOne(cId);
-//                 result.setCollege(collegeEntity.getName());
-//             }
-//
-//             stuResults.add(result);
-//         }
-//
-//        return stuResults;
+                 int cId=studentEntity.getCollegeId();
+                 CollegeEntity collegeEntity=collegeRepository.getOne(cId);
+                 result.setCollege(collegeEntity.getName());
+             }
 
+             stuResults.add(result);
+         }
+         return stuResults;
     }
-
 
     //转让社长，sx
     //传参：社团cid + 被转让成员uid
     //返回1说明社长转让成功，则该学生失去社长权限（页面可以跳转到“亲爱的XX同学，感谢这段时间的陪伴，再见！）”
-    @GetMapping("/api/leader/change/{cid}/{uidL}/{uidM}")
+    @GetMapping("/api/leader/member/{cid}/{uidL}/{uidM}")
     @ResponseBody
     public int transferLeader(@PathVariable int cid,@PathVariable String uidL,@PathVariable String  uidM){
         int succeed=-1;
