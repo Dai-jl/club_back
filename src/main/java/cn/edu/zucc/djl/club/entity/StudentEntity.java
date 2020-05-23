@@ -14,7 +14,7 @@ import java.util.Objects;
 public class StudentEntity {
     private String uId;
     private String password;
-    private String name;
+    private String uName;
     private String phone;
     private byte[] image;
     private Integer collegeId;
@@ -45,13 +45,13 @@ public class StudentEntity {
     }
 
     @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
+    @Column(name = "u_name")
+    public String getUName() {
+        return uName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUName(String uName) {
+        this.uName = uName;
     }
 
     @Basic
@@ -91,7 +91,7 @@ public class StudentEntity {
         StudentEntity that = (StudentEntity) o;
         return Objects.equals(uId, that.uId) &&
                 Objects.equals(password, that.password) &&
-                Objects.equals(name, that.name) &&
+                Objects.equals(uName, that.uName) &&
                 Objects.equals(phone, that.phone) &&
                 Arrays.equals(image, that.image) &&
                 Objects.equals(collegeId, that.collegeId);
@@ -99,7 +99,7 @@ public class StudentEntity {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(uId, password, name, phone, collegeId);
+        int result = Objects.hash(uId, password, uName, phone, collegeId);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
