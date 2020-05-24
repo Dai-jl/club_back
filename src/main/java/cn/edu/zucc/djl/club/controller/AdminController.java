@@ -1,11 +1,14 @@
 package cn.edu.zucc.djl.club.controller;
 
+import cn.edu.zucc.djl.club.entity.ActivityEntity;
 import cn.edu.zucc.djl.club.entity.AdminEntity;
 import cn.edu.zucc.djl.club.form.LoginForm;
 import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.repositpories.ActivityRespository;
 import cn.edu.zucc.djl.club.repositpories.AdminRespository;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @CrossOrigin
@@ -31,6 +34,14 @@ public class AdminController {
             return new StateResult(200);
         }
         return new StateResult(400);
+    }
+
+    //待审核活动 djl
+    @GetMapping("/api/admin/waittopassa")
+    @CrossOrigin
+    public List<ActivityEntity> waitToPass(){
+        List<ActivityEntity> list = activityRespository.findByAIdNull();
+        return list;
     }
 
     //通过活动 djl
@@ -64,7 +75,7 @@ public class AdminController {
     }
 
     //取消地点 djl
-    @PostMapping("/api/admin/passaddress/{aid}")
+    @PostMapping("/api/admin/canceladdress/{aid}")
     @CrossOrigin
     public StateResult canceladdress(@PathVariable int aid){
         if(activityRespository.toCancelAddress(aid)){

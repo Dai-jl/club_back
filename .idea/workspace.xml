@@ -8,7 +8,26 @@
   <component name="ChangeListManager">
     <list default="true" id="856b0fad-c2ba-45b6-abc1-3319858c20af" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/zucc/djl/club/entity/ActivityEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/zucc/djl/club/entity/ActivityEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/zucc/djl/club/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/zucc/djl/club/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/zucc/djl/club/repositpories/ActivityRespository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/zucc/djl/club/repositpories/ActivityRespository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/edu/zucc/djl/club/repositpories/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/edu/zucc/djl/club/repositpories/MemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/QaApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/QaApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/controller/LeaderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/controller/LeaderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/ActivityEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/ActivityEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/AdminEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/AdminEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/ClassroomEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/ClassroomEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/ClubEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/ClubEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/CollegeEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/CollegeEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/CommentEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/CommentEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/JoinActivityEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/JoinActivityEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/MemberTableEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/MemberTableEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/PassgaeEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/PassgaeEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/StudentEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/StudentEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/TimetableEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/entity/TimetableEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/repositpories/ClubRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/repositpories/MemberRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/cn/edu/zucc/djl/club/repositpories/MemberRepository.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +182,7 @@
       <workItem from="1590111814060" duration="6962000" />
       <workItem from="1590149717080" duration="2304000" />
       <workItem from="1590218313990" duration="53000" />
-      <workItem from="1590306191891" duration="4296000" />
+      <workItem from="1590306191891" duration="7913000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1589703471995</created>
@@ -207,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590309450003</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="test">
+      <created>1590311054715</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1590311054715</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,10 +302,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="770" y="175" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1589696162919" />
-    <state x="509" y="20" key="CommitChangelistDialog2" timestamp="1590309448588">
+    <state x="509" y="20" key="CommitChangelistDialog2" timestamp="1590311053079">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="509" y="20" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590309448588" />
+    <state x="509" y="20" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590311053079" />
     <state x="494" y="100" width="948" height="624" key="DiffContextDialog" timestamp="1587525953778">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -296,38 +322,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="155" y="120" key="Github.UntrackedFilesDialog/0.0.1536.824@0.0.1536.824" timestamp="1589697780745" />
-    <state width="724" height="268" key="GridCell.Tab.0.bottom" timestamp="1590120459032">
+    <state width="1461" height="394" key="GridCell.Tab.0.bottom" timestamp="1590313638556">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="268" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590120459032" />
-    <state width="724" height="268" key="GridCell.Tab.0.center" timestamp="1590120459030">
+    <state width="1461" height="394" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590313638556" />
+    <state width="1461" height="394" key="GridCell.Tab.0.center" timestamp="1590313638556">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="268" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590120459030" />
-    <state width="724" height="268" key="GridCell.Tab.0.left" timestamp="1590120459029">
+    <state width="1461" height="394" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590313638556" />
+    <state width="1461" height="394" key="GridCell.Tab.0.left" timestamp="1590313638556">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="268" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590120459029" />
-    <state width="724" height="268" key="GridCell.Tab.0.right" timestamp="1590120459031">
+    <state width="1461" height="394" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590313638556" />
+    <state width="1461" height="394" key="GridCell.Tab.0.right" timestamp="1590313638556">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="268" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590120459031" />
-    <state width="724" height="268" key="GridCell.Tab.1.bottom" timestamp="1590120459033">
+    <state width="1461" height="394" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590313638556" />
+    <state width="1461" height="394" key="GridCell.Tab.1.bottom" timestamp="1590313638557">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="268" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590120459033" />
-    <state width="724" height="268" key="GridCell.Tab.1.center" timestamp="1590120459033">
+    <state width="1461" height="394" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590313638557" />
+    <state width="1461" height="394" key="GridCell.Tab.1.center" timestamp="1590313638557">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="268" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1590120459033" />
-    <state width="724" height="268" key="GridCell.Tab.1.left" timestamp="1590120459032">
+    <state width="1461" height="394" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1590313638557" />
+    <state width="1461" height="394" key="GridCell.Tab.1.left" timestamp="1590313638557">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="268" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1590120459032" />
-    <state width="724" height="268" key="GridCell.Tab.1.right" timestamp="1590120459033">
+    <state width="1461" height="394" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1590313638557" />
+    <state width="1461" height="394" key="GridCell.Tab.1.right" timestamp="1590313638557">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="268" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1590120459033" />
+    <state width="1461" height="394" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1590313638557" />
     <state width="628" height="208" key="GridCell.Tab.2.bottom" timestamp="1587109206139">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

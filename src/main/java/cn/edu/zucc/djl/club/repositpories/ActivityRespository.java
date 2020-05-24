@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface ActivityRespository extends JpaRepository<ActivityEntity,Integer> {
+
+    List<ActivityEntity>  findByAIdNull();
 
     //活动通过
     @Transactional

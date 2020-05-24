@@ -16,6 +16,9 @@ public interface MemberRepository extends JpaRepository<MemberTableEntity,Intege
 //    @Query(value = "select * from member_table where c_id=?1 limit ?2,10",nativeQuery = true)
 //    @Modifying
 //    List<MemberTableEntity> getMemList(int cid,int startIndex);
+
+    @Transactional
+    @Query(value = "select * from member_table where u_id = ?1",nativeQuery = true)
     MemberTableEntity findByUId(String id);
 
     //通过社团id查找社团成员的全部信息
@@ -38,6 +41,8 @@ public interface MemberRepository extends JpaRepository<MemberTableEntity,Intege
     int transferMsgMem(String uid,int cid);
 
     //判断成员是否存在
+    @Transactional
+    @Query(value = "select * from member_table where c_id = ?1 and u_id=?2",nativeQuery = true)
     boolean existsByCIdAndUId(int cid,String uid);
 
     //删除成员
