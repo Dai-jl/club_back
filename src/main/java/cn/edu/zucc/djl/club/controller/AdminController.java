@@ -3,6 +3,7 @@ package cn.edu.zucc.djl.club.controller;
 import cn.edu.zucc.djl.club.entity.ActivityEntity;
 import cn.edu.zucc.djl.club.entity.AdminEntity;
 import cn.edu.zucc.djl.club.form.LoginForm;
+import cn.edu.zucc.djl.club.formbean.ActivityResult;
 import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.repositpories.ActivityRespository;
 import cn.edu.zucc.djl.club.repositpories.AdminRespository;
@@ -39,9 +40,16 @@ public class AdminController {
     //待审核活动 djl
     @GetMapping("/api/admin/waittopassa")
     @CrossOrigin
-    public List<ActivityEntity> waitToPass(){
-        List<ActivityEntity> list = activityRespository.findByAIdNull();
-        return list;
+    public List<ActivityResult> waitToPass(){
+        List<Object[]> res = activityRespository.findwaitToPass();
+        try{
+            List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
+//            System.out.println(list+"ok");
+            return list;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
     }
 
     //通过活动 djl

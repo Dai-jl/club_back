@@ -1,6 +1,7 @@
 package cn.edu.zucc.djl.club.entity;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.http.converter.ObjectToStringHttpMessageConverter;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -12,6 +13,7 @@ import java.util.Objects;
 @Table(name = "activity", schema = "club", catalog = "")
 public class ActivityEntity {
     private int aId;
+    private String name;
     private Integer cId;
     private Integer rId;
     private Date applyDate;
@@ -33,6 +35,16 @@ public class ActivityEntity {
 
     public void setaId(int aId) {
         this.aId = aId;
+    }
+
+    @Basic
+    @Column(name="name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Basic
@@ -162,6 +174,7 @@ public class ActivityEntity {
         if (o == null || getClass() != o.getClass()) return false;
         ActivityEntity that = (ActivityEntity) o;
         return aId == that.aId &&
+                Objects.equals(name,that.name)&&
                 Objects.equals(cId, that.cId) &&
                 Objects.equals(rId, that.rId) &&
                 Objects.equals(startTime, that.startTime) &&
@@ -177,7 +190,7 @@ public class ActivityEntity {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(aId, cId, rId, startTime, endTime, number, budget, detial, limit, aPass, bPass);
+        int result = Objects.hash(aId, name,cId, rId, startTime, endTime, number, budget, detial, limit, aPass, bPass);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
