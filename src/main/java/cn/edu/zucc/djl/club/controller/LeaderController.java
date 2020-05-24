@@ -3,7 +3,9 @@ package cn.edu.zucc.djl.club.controller;
 import cn.edu.zucc.djl.club.entity.CollegeEntity;
 import cn.edu.zucc.djl.club.entity.MemberTableEntity;
 import cn.edu.zucc.djl.club.entity.StudentEntity;
+import cn.edu.zucc.djl.club.form.LoginForm;
 import cn.edu.zucc.djl.club.formbean.College;
+import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.formbean.StuResult;
 import cn.edu.zucc.djl.club.formbean.Student;
 import cn.edu.zucc.djl.club.repositpories.CollegeRepository;
@@ -67,5 +69,22 @@ public class LeaderController {
         BeanUtils.copyProperties(studentEntity,student);
         return student;
     }
+
+    //社长登陆，djl
+    @PostMapping("/api/leader/login")
+    @CrossOrigin
+    public StateResult login(@RequestBody LoginForm loginForm){
+        String id = loginForm.getId();
+        MemberTableEntity memberTableEntity = memberRepository.findByUId(id);
+        if(memberTableEntity.getType().equals("member")) return new StateResult(300);
+        StudentEntity studentEntity = studentRepository.getOne(id);
+        if(loginForm.getPassword().equals(studentEntity.getPassword())){
+            StudentEntity.setCurrentStudent(studentEntity);
+            return new StateResult(200);
+        }
+        return new StateResult(400);
+
+    }
+
 
 }

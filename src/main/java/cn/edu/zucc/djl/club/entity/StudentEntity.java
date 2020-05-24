@@ -18,7 +18,7 @@ public class StudentEntity {
     private String phone;
     private byte[] image;
     private Integer collegeId;
-    public static StudentEntity currentStudent = new StudentEntity();
+    public static StudentEntity currentStudent;
     public static void setCurrentStudent(StudentEntity userEntity){
         currentStudent = userEntity;
     }

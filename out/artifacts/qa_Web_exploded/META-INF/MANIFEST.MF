@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: DJL
+Build-Jdk: 1.8.0_231
+Implementation-Title: qa
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: cn.edu.zucc.djl
+Main-Class: ${start-class}
+

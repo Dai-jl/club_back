@@ -12,6 +12,10 @@ public class AdminEntity {
     private String id;
     private String password;
     private String type;
+    public static AdminEntity currentAdmin;
+    public static void setCurrentAdmin(AdminEntity adminEntity){
+        AdminEntity.currentAdmin = adminEntity;
+    }
 
     @Id
     @Column(name = "id")
