@@ -1,6 +1,9 @@
 package cn.edu.zucc.djl.club.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Objects;
@@ -11,6 +14,7 @@ public class ActivityEntity {
     private int aId;
     private Integer cId;
     private Integer rId;
+    private Date applyDate;
     private Timestamp startTime;
     private Timestamp endTime;
     private Integer number;
@@ -49,6 +53,17 @@ public class ActivityEntity {
 
     public void setrId(Integer rId) {
         this.rId = rId;
+    }
+
+    @Basic
+    @CreatedDate
+    @Column(name = "apply_date")
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
     }
 
     @Basic
