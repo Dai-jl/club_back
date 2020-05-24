@@ -1,14 +1,11 @@
 package cn.edu.zucc.djl.club.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "timetable", schema = "club", catalog = "")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class TimetableEntity {
     private int tId;
     private int rId;

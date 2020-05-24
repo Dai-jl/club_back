@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface MemberRepository extends JpaRepository<MemberTableEntity,Integer> {
     List<MemberTableEntity> findBycIdOrderByStateDesc(int cid);
-
-    MemberTableEntity findByUId(String uid);
 }

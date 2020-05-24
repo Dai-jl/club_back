@@ -3,7 +3,7 @@ package cn.edu.zucc.djl.club.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -72,8 +72,8 @@ public class MemberTableEntity {
         return joinDate;
     }
 
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
+    public void setJoinDate(Date createDate) {
+        this.joinDate = createDate;
     }
 
     @Basic
@@ -82,8 +82,8 @@ public class MemberTableEntity {
         return leaveDate;
     }
 
-    public void setLeaveDate(Date leaveDate) {
-        this.leaveDate = leaveDate;
+    public void setLeaveDate(Date updateDate) {
+        this.leaveDate = updateDate;
     }
 
     @Override

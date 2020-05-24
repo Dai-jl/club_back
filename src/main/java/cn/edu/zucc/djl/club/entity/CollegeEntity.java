@@ -10,7 +10,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class CollegeEntity {
     private int cId;
-    private String name;
+    private String cName;
     private Integer clubAdmin;
 
     @Id
@@ -24,13 +24,11 @@ public class CollegeEntity {
     }
 
     @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
-    }
+    @Column(name = "c_name")
+    public String getcName(){return  cName;}
 
-    public void setName(String name) {
-        this.name = name;
+    public void setcName(String cName) {
+        this.cName = cName;
     }
 
     @Basic
@@ -49,12 +47,12 @@ public class CollegeEntity {
         if (o == null || getClass() != o.getClass()) return false;
         CollegeEntity that = (CollegeEntity) o;
         return cId == that.cId &&
-                Objects.equals(name, that.name) &&
+                Objects.equals(cName, that.cName) &&
                 Objects.equals(clubAdmin, that.clubAdmin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cId, name, clubAdmin);
+        return Objects.hash(cId, cName, clubAdmin);
     }
 }
