@@ -22,23 +22,23 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     @Transactional
     @Query(value = "update  activity set a_pass=1 where a_id=?1 ",nativeQuery = true)
     @Modifying
-    boolean toPass(int aid);
+    int toPass(int aid);
 
     //取消活动
     @Transactional
     @Query(value = "update  activity set a_pass=0 where a_id=?1 ",nativeQuery = true)
     @Modifying
-    boolean toCancel(int aid);
+    int toCancel(int aid);
 
     //通过活动地点
     @Transactional
     @Query(value = "update  activity set b_pass=1 where a_id=?1 ",nativeQuery = true)
     @Modifying
-    boolean toPassAddress(int aid);
+    int toPassAddress(int aid);
 
     //取消活动地点
     @Transactional
     @Query(value = "update  activity set b_pass=0 where a_id=?1 ",nativeQuery = true)
     @Modifying
-    boolean toCancelAddress(int aid);
+    int toCancelAddress(int aid);
 }
