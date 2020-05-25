@@ -40,8 +40,15 @@ public class AdminController {
     //待审核活动 djl
     @GetMapping("/api/admin/waittopassa/{aid}")
     @CrossOrigin
-    public List<ActivityResult> waitToPass(@PathVariable int aid){
-        List<Object[]> res = activityRespository.findwaitToPass(aid);
+    public List<ActivityResult> waitToPass(@PathVariable String aid){
+        AdminEntity adminEntity = adminRespository.getOne(aid);
+        List<Object[]> res;
+        if(adminEntity.getType().equals("class")){
+            res = activityRespository.findwaitToPass(aid);
+        }
+        else {
+            res = activityRespository.findwaitToaPass(aid);
+        }
         try{
             List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
             return list;
@@ -55,8 +62,15 @@ public class AdminController {
     //待审核活动 djl
     @GetMapping("/api/admin/passa/{aid}")
     @CrossOrigin
-    public List<ActivityResult> alredyPass(@PathVariable int aid){
-        List<Object[]> res = activityRespository.findAlreadyPass(aid);
+    public List<ActivityResult> alredyPass(@PathVariable String aid){
+        AdminEntity adminEntity = adminRespository.getOne(aid);
+        List<Object[]> res;
+        if(adminEntity.getType().equals("class")){
+            res = activityRespository.findAlreadyPass(aid);
+        }
+        else{
+            res = activityRespository.findAlreadyaPass(aid);
+        }
         try{
             List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
             return list;
@@ -67,10 +81,16 @@ public class AdminController {
     }
 
     //通过活动 djl
-    @PostMapping("/api/admin/passactivity/{aid}")
+    @PostMapping("/api/admin/passactivity/{adminid}/{aid}")
     @CrossOrigin
-    public StateResult pass(@PathVariable int aid){
-        System.out.println(activityRespository.toPass(aid));
+    public StateResult pass(@PathVariable int aid,@PathVariable String adminid){
+        AdminEntity adminEntity = adminRespository.getOne(adminid);
+        if(adminEntity.getType().equals("class")){
+            if(activityRespository.toPassAddress(aid) != 0){
+                return new StateResult(200);
+            }
+            return new StateResult(400);
+        }
         if(activityRespository.toPass(aid)!=0){
             return new StateResult(200);
         }
@@ -78,30 +98,17 @@ public class AdminController {
     }
 
     //取消活动 djl
-    @PostMapping("/api/admin/cancelactivity/{aid}")
+    @PostMapping("/api/admin/cancelactivity/{adminid}/{aid}")
     @CrossOrigin
-    public StateResult cancel(@PathVariable int aid){
-        if(activityRespository.toCancel(aid) !=0){
-            return new StateResult(200);
+    public StateResult cancel(@PathVariable int aid,@PathVariable String adminid){
+        AdminEntity adminEntity = adminRespository.getOne(adminid);
+        if(adminEntity.getType().equals("class")){
+            if(activityRespository.toCancelAddress(aid) != 0){
+                return new StateResult(200);
+            }
+            return new StateResult(400);
         }
-        return new StateResult(400);
-    }
-
-    //通过地点 djl
-    @PostMapping("/api/admin/passaddress/{aid}")
-    @CrossOrigin
-    public StateResult passaddress(@PathVariable int aid){
-        if(activityRespository.toPassAddress(aid) != 0){
-            return new StateResult(200);
-        }
-        return new StateResult(400);
-    }
-
-    //取消地点 djl
-    @PostMapping("/api/admin/canceladdress/{aid}")
-    @CrossOrigin
-    public StateResult canceladdress(@PathVariable int aid){
-        if(activityRespository.toCancelAddress(aid)!=0){
+        if(activityRespository.toCancel(aid)!=0){
             return new StateResult(200);
         }
         return new StateResult(400);

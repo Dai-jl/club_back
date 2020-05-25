@@ -15,6 +15,15 @@ public class ClubEntity {
     private Integer level;
     private Integer mainActivity;
     private Integer collegeId;
+    private String adminId;
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
 
     @Id
     @Column(name = "c_id")
@@ -108,12 +117,13 @@ public class ClubEntity {
                 Objects.equals(bookNum, that.bookNum) &&
                 Objects.equals(level, that.level) &&
                 Objects.equals(mainActivity, that.mainActivity) &&
-                Objects.equals(collegeId, that.collegeId);
+                Objects.equals(collegeId, that.collegeId)&&
+                Objects.equals(adminId,that.adminId);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(cId, name, description, bookNum, level, mainActivity, collegeId);
+        int result = Objects.hash(cId, name, description, bookNum, level, mainActivity, collegeId,adminId);
         result = 31 * result + Arrays.hashCode(logo);
         return result;
     }
