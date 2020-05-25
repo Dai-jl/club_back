@@ -44,7 +44,21 @@ public class AdminController {
         List<Object[]> res = activityRespository.findwaitToPass();
         try{
             List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
-//            System.out.println(list+"ok");
+            return list;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+
+    //待审核活动 djl
+    @GetMapping("/api/admin/passa")
+    @CrossOrigin
+    public List<ActivityResult> alredyPass(){
+        List<Object[]> res = activityRespository.findAlreadyPass();
+        try{
+            List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
             return list;
         }catch (Exception e){
             System.out.println(e);
@@ -56,7 +70,8 @@ public class AdminController {
     @PostMapping("/api/admin/passactivity/{aid}")
     @CrossOrigin
     public StateResult pass(@PathVariable int aid){
-        if(activityRespository.toPass(aid)){
+        System.out.println(activityRespository.toPass(aid));
+        if(activityRespository.toPass(aid)!=0){
             return new StateResult(200);
         }
         return new StateResult(400);
@@ -66,7 +81,7 @@ public class AdminController {
     @PostMapping("/api/admin/cancelactivity/{aid}")
     @CrossOrigin
     public StateResult cancel(@PathVariable int aid){
-        if(activityRespository.toCancel(aid)){
+        if(activityRespository.toCancel(aid) !=0){
             return new StateResult(200);
         }
         return new StateResult(400);
@@ -76,7 +91,7 @@ public class AdminController {
     @PostMapping("/api/admin/passaddress/{aid}")
     @CrossOrigin
     public StateResult passaddress(@PathVariable int aid){
-        if(activityRespository.toPassAddress(aid)){
+        if(activityRespository.toPassAddress(aid) != 0){
             return new StateResult(200);
         }
         return new StateResult(400);
@@ -86,7 +101,7 @@ public class AdminController {
     @PostMapping("/api/admin/canceladdress/{aid}")
     @CrossOrigin
     public StateResult canceladdress(@PathVariable int aid){
-        if(activityRespository.toCancelAddress(aid)){
+        if(activityRespository.toCancelAddress(aid)!=0){
             return new StateResult(200);
         }
         return new StateResult(400);
