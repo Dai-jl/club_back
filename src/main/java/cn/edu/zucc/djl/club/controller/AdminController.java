@@ -38,10 +38,10 @@ public class AdminController {
     }
 
     //待审核活动 djl
-    @GetMapping("/api/admin/waittopassa")
+    @GetMapping("/api/admin/waittopassa/{aid}")
     @CrossOrigin
-    public List<ActivityResult> waitToPass(){
-        List<Object[]> res = activityRespository.findwaitToPass();
+    public List<ActivityResult> waitToPass(@PathVariable int aid){
+        List<Object[]> res = activityRespository.findwaitToPass(aid);
         try{
             List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
             return list;
@@ -53,10 +53,10 @@ public class AdminController {
 
 
     //待审核活动 djl
-    @GetMapping("/api/admin/passa")
+    @GetMapping("/api/admin/passa/{aid}")
     @CrossOrigin
-    public List<ActivityResult> alredyPass(){
-        List<Object[]> res = activityRespository.findAlreadyPass();
+    public List<ActivityResult> alredyPass(@PathVariable int aid){
+        List<Object[]> res = activityRespository.findAlreadyPass(aid);
         try{
             List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
             return list;

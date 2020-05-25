@@ -151,7 +151,7 @@ public class LeaderController {
     public StateResult login(@RequestBody LoginForm loginForm){
         String id = loginForm.getId();
         MemberTableEntity memberTableEntity = memberRepository.findByUId(id);
-        if(memberTableEntity.getType().equals("member")) return new StateResult(300);
+        if(memberTableEntity == null) return new StateResult(300);
         StudentEntity studentEntity = studentRepository.getOne(id);
         if(loginForm.getPassword().equals(studentEntity.getPassword())){
             StudentEntity.setCurrentStudent(studentEntity);
