@@ -21,9 +21,4 @@ public class ActivityController {
         this.collegeRepository = collegeRepository;
     }
 
-    //获得活动列表,sx
-    //@GetMapping('/api/activity/{cid}')
-
-
-
 }

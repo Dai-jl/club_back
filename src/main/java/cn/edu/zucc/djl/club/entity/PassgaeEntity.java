@@ -1,17 +1,23 @@
 package cn.edu.zucc.djl.club.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "passgae", schema = "club", catalog = "")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class PassgaeEntity {
     private int pId;
-    private Integer cId;
+    private int cId;
     private String name;
     private String content;
     private byte[] image;
+    private Date time;
+    private String url;
 
     @Id
     @Column(name = "p_id")
@@ -25,11 +31,11 @@ public class PassgaeEntity {
 
     @Basic
     @Column(name = "c_id")
-    public Integer getcId() {
+    public int getcId() {
         return cId;
     }
 
-    public void setcId(Integer cId) {
+    public void setcId(int cId) {
         this.cId = cId;
     }
 
@@ -63,6 +69,22 @@ public class PassgaeEntity {
         this.image = image;
     }
 
+    @Basic
+    @Column(name = "time")
+    public Date getTime(){return time;}
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    @Basic
+    @Column(name = "url")
+    public String getUrl(){return url;}
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,12 +94,14 @@ public class PassgaeEntity {
                 Objects.equals(cId, that.cId) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(content, that.content) &&
-                Arrays.equals(image, that.image);
+                Arrays.equals(image, that.image) &&
+                Objects.equals(time,that.time) &&
+                Objects.equals(url,that.url);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(pId, cId, name, content);
+        int result = Objects.hash(pId, cId, name, content,time,url);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
