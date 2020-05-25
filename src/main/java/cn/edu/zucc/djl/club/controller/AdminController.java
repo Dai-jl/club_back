@@ -44,7 +44,21 @@ public class AdminController {
         List<Object[]> res = activityRespository.findwaitToPass();
         try{
             List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
-//            System.out.println(list+"ok");
+            return list;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+
+    //待审核活动 djl
+    @GetMapping("/api/admin/passa")
+    @CrossOrigin
+    public List<ActivityResult> alredyPass(){
+        List<Object[]> res = activityRespository.findAlreadyPass();
+        try{
+            List<ActivityResult> list = ActivityResult.objectToBean(res,ActivityResult.class);
             return list;
         }catch (Exception e){
             System.out.println(e);
