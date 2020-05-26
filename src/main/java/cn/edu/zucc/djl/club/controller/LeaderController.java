@@ -148,14 +148,15 @@ public class LeaderController {
     //社长登陆，djl
     @PostMapping("/api/leader/login")
     @CrossOrigin
-    public StateResult login(@RequestBody LoginForm loginForm){
+    public Object login(@RequestBody LoginForm loginForm){
         String id = loginForm.getId();
         MemberTableEntity memberTableEntity = memberRepository.findByUId(id);
-        if(memberTableEntity.getType().equals("member")) return new StateResult(300);
+        if(memberTableEntity == null) return new StateResult(300);
+        int cid = memberTableEntity.getcId();
         StudentEntity studentEntity = studentRepository.getOne(id);
         if(loginForm.getPassword().equals(studentEntity.getPassword())){
             StudentEntity.setCurrentStudent(studentEntity);
-            return new StateResult(200);
+            return new StateResult(200,cid);
         }
         return new StateResult(400);
 

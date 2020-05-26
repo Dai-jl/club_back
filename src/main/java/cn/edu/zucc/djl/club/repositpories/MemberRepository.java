@@ -18,7 +18,7 @@ public interface MemberRepository extends JpaRepository<MemberTableEntity,Intege
 //    List<MemberTableEntity> getMemList(int cid,int startIndex);
 
     @Transactional
-    @Query(value = "select * from member_table where u_id = ?1",nativeQuery = true)
+    @Query(value = "select * from member_table where u_id = ?1 and type = 'leader'",nativeQuery = true)
     MemberTableEntity findByUId(String id);
 
     //通过社团id,及成员的状态查找社团成员的全部信息
