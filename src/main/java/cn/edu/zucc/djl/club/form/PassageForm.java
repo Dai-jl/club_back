@@ -1,10 +1,28 @@
 package cn.edu.zucc.djl.club.form;
 
 public class PassageForm {
+    private int pid;
+    private int cid;
     private String name;
     private String content;
     private String url;
     private byte[] img;
+
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
+    public int getCid() {
+        return cid;
+    }
+
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
 
     public String getName() {
         return name;

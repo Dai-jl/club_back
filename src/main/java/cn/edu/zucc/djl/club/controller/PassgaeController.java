@@ -9,9 +9,11 @@ import cn.edu.zucc.djl.club.repositpories.MemberRepository;
 import cn.edu.zucc.djl.club.repositpories.PassgaeRespository;
 import cn.edu.zucc.djl.club.repositpories.StudentRepository;
 import com.fasterxml.jackson.databind.util.BeanUtil;
+import org.omg.CORBA.Request;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,44 +34,65 @@ public class PassgaeController {
     //获得列表
     //方式一：（初始化方法）
     //获得活动推送的全部列表,sx
-    @GetMapping("/api/passage/show1/{cid}")
+    @GetMapping("/api/passage/show1/{cid}/{pageIndex}")
     @ResponseBody
-    public List<PsgResult> getAllPsList(@PathVariable int cid) throws Exception {
-        List<Object[]> listObject=passgaeRespository.getAllPas(cid);
-        List<PsgResult>  psgResults= StuResult.objectToBean(listObject,PsgResult.class);
+    public List<PsgResult> getAllPsList(@PathVariable int cid,@PathVariable int pageIndex) throws Exception {
+        List<PsgResult>  psgResults=new ArrayList<PsgResult>();
+        int startIndex=8*(pageIndex-1);
+
+        List<Object[]> listObject=passgaeRespository.getAllPas(cid,startIndex);
+        psgResults= PsgResult.objectToBean(listObject,PsgResult.class);
 
         return psgResults;
     }
 
     //方式二：
     //按输入搜索内容(keyStr)的范围进行推送的查找
-    //模糊查询
-    //未完成
+    //模糊查询,sx
     @GetMapping("/api/passage/show2/{cid}/{keyStr}")
     @ResponseBody
-    public List<PsgResult> getLessPsList(@PathVariable int cid,@PathVariable String keyStr) throws Exception {
-        keyStr=URLDecoder.decode(keyStr,"utf-8");
+    public List<PsgResult> getLessPsList(@PathVariable int cid, @PathVariable String keyStr) throws Exception {
+        List<PsgResult>  psgResults=new ArrayList<PsgResult>();
+//        String keyword=request.getParameter(keyStr);
+//        keyword=URLDecoder.decode(keyword,"utf-8");
+//        System.out.println(keyStr);
 
-        System.out.println(keyStr);
         keyStr="%"+keyStr+"%";
         List<Object[]> listObject=passgaeRespository.getLessPas(cid,keyStr);
-        List<PsgResult>  psgResults= StuResult.objectToBean(listObject,PsgResult.class);
+        System.out.println(listObject.size());
+        psgResults= PsgResult.objectToBean(listObject,PsgResult.class);
 
         return psgResults;
     }
 
 
     //发布活动推送,sx
-    //暂时规定当前社团id为1
     @PostMapping("/api/passage/putup")
     public int putPsg(@RequestBody PassageForm psg){
         int succeed;
-        succeed=passgaeRespository.addPsg(1,psg.getName(),psg.getContent(),psg.getImg(),new Date(),psg.getUrl());
+        succeed=passgaeRespository.addPsg(psg.getCid(),psg.getName(),psg.getContent(),psg.getImg(),new Date(),psg.getUrl());
 
         return succeed;
     }
 
+    //删除活动推送，sx
+    @GetMapping("/api/passage/delete/{pid}")
+    @ResponseBody
+    public int deletePsg(@PathVariable int pid){
+        int succeed;
+        succeed=passgaeRespository.deletePsg(pid);
 
+        return succeed;
+    }
+
+    //修改活动推送，sx
+    @PostMapping("/api/passage/modify")
+    public int modifyPsg(@RequestBody PassageForm psg){
+        int succeed;
+        succeed=passgaeRespository.modifyPsg(psg.getName(),psg.getContent(),psg.getPid());
+
+        return succeed;
+    }
 
 
 }

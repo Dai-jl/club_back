@@ -21,11 +21,11 @@ public interface MemberRepository extends JpaRepository<MemberTableEntity,Intege
     @Query(value = "select * from member_table where u_id = ?1",nativeQuery = true)
     MemberTableEntity findByUId(String id);
 
-    //通过社团id查找社团成员的全部信息
+    //通过社团id,及成员的状态查找社团成员的全部信息
     @Transactional
     @Query(value = "select s.u_name,s.phone,c.c_name,mt.join_date,mt.leave_date,mt.state,s.u_id" +
-            " from member_table mt,student s,college c where mt.c_id=?1 and mt.u_id=s.u_id and s.college_id=c.c_id LIMIT ?2,10",nativeQuery = true)
-    List<Object[]> getMemList(int cid, int startIndex);
+            " from member_table mt,student s,college c where mt.c_id=?1 and mt.state=?2 and mt.u_id=s.u_id and s.college_id=c.c_id",nativeQuery = true)
+    List<Object[]> getMemList(int cid,int state);
 
     //转让社长
     //修改社长身份

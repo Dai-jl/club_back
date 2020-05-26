@@ -35,15 +35,15 @@ public class LeaderController {
     }
 
     //获得成员列表，sx
-    @GetMapping("/api/leader/member/{id}/{pageIndex}")
+    @GetMapping("/api/leader/member/{id}/{state}")
     @ResponseBody
-    public List<StuResult> listAllMember(@PathVariable int id, @PathVariable int pageIndex) throws Exception {
+    public List<StuResult> listAllMember(@PathVariable int id,@PathVariable int state) throws Exception {
         //优化使用多表查询，使性能提高
-        //使用limit实现分页
-        int startIndex=10*(pageIndex-1);
-        List<Object[]> memberMsg = memberRepository.getMemList(id,startIndex);
+        //分页在前端进行模拟
+        List<Object[]> memberMsg = memberRepository.getMemList(id,state);
 
         List<StuResult> results=StuResult.objectToBean(memberMsg,StuResult.class);
+        System.out.println(results.size());
         return results;
 
         //简单循环
