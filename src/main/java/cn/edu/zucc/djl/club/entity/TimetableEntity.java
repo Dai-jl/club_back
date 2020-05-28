@@ -2,6 +2,7 @@ package cn.edu.zucc.djl.club.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +12,11 @@ public class TimetableEntity {
     private int rId;
     private Timestamp startTime;
     private Timestamp endTime;
+
+    public static List<TimetableEntity> currentTiemtable ;
+    public static void setCurrentTiemtable(List<TimetableEntity> Tiemtable){
+        currentTiemtable = Tiemtable;
+    }
 
     @Id
     @Column(name = "t_id")
