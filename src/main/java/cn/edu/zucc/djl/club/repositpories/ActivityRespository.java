@@ -37,7 +37,7 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     //地点已审核列表
     @Transactional
     @Query(value = "select c.a_id,c.activity_name,club.`name` club_name,c.`name` class_name,c.apply_date,c.start_time,c.end_time,c.number,c.budget,c.detial,c.image,c.`limit`,c.a_pass,c.b_pass,club.college_name from \n" +
-            "(select a.a_id,a.`name` activity_name,a.c_id,b.`name`,a.start_time,a.end_time,a.number,a.budget,a.detial,a.image,a.`limit`,a.a_pass,a.b_pass,a.apply_date from activity a left join (select * from classroom where admin_id = 1?) b on a.r_id = b.r_id) as c left join \n" +
+            "(select a.a_id,a.`name` activity_name,a.c_id,b.`name`,a.start_time,a.end_time,a.number,a.budget,a.detial,a.image,a.`limit`,a.a_pass,a.b_pass,a.apply_date from activity a left join (select * from classroom where admin_id = ?1) b on a.r_id = b.r_id) as c left join \n" +
             "(select club.c_id,club.`name`,college.c_name college_name from club left join college on club.college_id = college.c_id) as club\n" +
             "on c.c_id = club.c_id where c.b_pass is not null",nativeQuery = true)
     List<Object[]>  findAlreadyPass(String aid);

@@ -16,7 +16,7 @@ public interface PassgaeRespository extends JpaRepository<PassgaeEntity,Integer>
     //根据社团id获取活动推送内容，并按时间排序
     @Transactional
     @Query(value = "select p.p_id,p.name,p.content,p.time,p.url from passgae p where c_id=?1 order by time desc",nativeQuery = true)
-    List<Object[]> getAllPas(int cid,int startIndex);
+    List<Object[]> getAllPas(int cid);
 
     //方式二：
     //根据社长给输入内容进行模糊查询

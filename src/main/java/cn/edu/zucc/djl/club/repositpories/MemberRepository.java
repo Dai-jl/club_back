@@ -43,7 +43,7 @@ public interface MemberRepository extends JpaRepository<MemberTableEntity,Intege
     //判断成员是否存在
     @Transactional
     @Query(value = "select * from member_table where c_id = ?1 and u_id=?2",nativeQuery = true)
-    boolean existsByCIdAndUId(int cid,String uid);
+     MemberTableEntity existsMember(int cid,String uid);
 
     //删除成员
     @Transactional
@@ -51,6 +51,10 @@ public interface MemberRepository extends JpaRepository<MemberTableEntity,Intege
     @Query(value = "UPDATE  member_table SET state=0 ,leave_date = NOW() WHERE c_id = ? AND u_id = ?", nativeQuery = true)
     void updatestate(int cid,String uid);
 
+    //搜索成员的
+    @Query(value = "select s.u_name,s.phone,c.c_name,m.join_date ,m.leave_date , m.state,s.u_id from member_table m, student s, college c WHERE m.c_id = ? AND s.u_name LIKE ? AND c.c_name LIKE ? and m.join_date < ? " +
+            " AND m.u_id = s.u_id AND c.c_id=s.college_id ORDER BY join_date DESC",nativeQuery = true)
+    List<Object[]> searchMember (int cid,String username,String Collegename,String joindate);
 
 }
 
