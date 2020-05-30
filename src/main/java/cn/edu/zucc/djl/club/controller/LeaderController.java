@@ -92,19 +92,18 @@ public class LeaderController {
             return 0;
     }
 
-
-
-    @GetMapping("/api/leader/student/{uid}")
     //添加成员 czq
     @PostMapping("/api/leader/addmember")
     public String addMember(@RequestBody Map<String, String> res){
         StudentEntity studentEntity=new StudentEntity();
         String uid=res.get("number");
         studentEntity=studentRepository.getOne(uid);
-        System.out.print(uid);
+
         if (studentEntity!=null&&uid!=""){
             int cid = Integer.parseInt(res.get("cid"));
-            if (!memberRepository.existsByCIdAndUId(cid,uid)){
+            System.out.println(cid+"fdfdfdf"+uid);
+            if (memberRepository.existsMember(cid,uid)==null){
+                System.out.println(memberRepository.existsMember(cid,uid));
                 MemberTableEntity memberTableEntity=new MemberTableEntity();
                 memberTableEntity.setcId(cid);
                 memberTableEntity.setType("member");
@@ -118,7 +117,7 @@ public class LeaderController {
                 catch (Exception e){
                     return "添加失败";
                 }
-            }
+           }
 
             else{
                 return "该学生已经加入社团";
@@ -144,6 +143,22 @@ public class LeaderController {
     }
 
 
+    //通过关键字搜索成员列表，czq
+    @PostMapping("/api/leader/searchmember")
+    @ResponseBody
+    public List<StuResult> searchMember(@RequestBody Map<String,String> res) throws Exception {
+        int cid=Integer.parseInt(res.get("cid"));
+        String username="%"+res.get("username")+"%";
+        String collegename="%"+res.get("collegename")+"%";
+        if (res.get("collegename").equals(""))
+            collegename="%%";
+        String joindate=res.get("joindate");
+        List<Object[]> memberMsg = memberRepository.searchMember(cid,username,collegename,joindate);
+        List<StuResult> results=StuResult.objectToBean(memberMsg,StuResult.class);
+        return results;
+    }
+
+
 
     //社长登陆，djl
     @PostMapping("/api/leader/login")
@@ -151,13 +166,14 @@ public class LeaderController {
     public Object login(@RequestBody LoginForm loginForm){
         String id = loginForm.getId();
         MemberTableEntity memberTableEntity = memberRepository.findByUId(id);
-        if(memberTableEntity == null) return new StateResult(300);
+        if(memberTableEntity == null || memberTableEntity.getType().equals("member")) return new StateResult(300);
         int cid = memberTableEntity.getcId();
         StudentEntity studentEntity = studentRepository.getOne(id);
         if(loginForm.getPassword().equals(studentEntity.getPassword())){
             StudentEntity.setCurrentStudent(studentEntity);
             return new StateResult(200,cid);
         }
+
         return new StateResult(400);
 
     }

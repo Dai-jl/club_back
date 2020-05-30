@@ -34,13 +34,12 @@ public class PassgaeController {
     //获得列表
     //方式一：（初始化方法）
     //获得活动推送的全部列表,sx
-    @GetMapping("/api/passage/show1/{cid}/{pageIndex}")
+    @GetMapping("/api/passage/show1/{cid}")
     @ResponseBody
-    public List<PsgResult> getAllPsList(@PathVariable int cid,@PathVariable int pageIndex) throws Exception {
+    public List<PsgResult> getAllPsList(@PathVariable int cid) throws Exception {
         List<PsgResult>  psgResults=new ArrayList<PsgResult>();
-        int startIndex=8*(pageIndex-1);
 
-        List<Object[]> listObject=passgaeRespository.getAllPas(cid,startIndex);
+        List<Object[]> listObject=passgaeRespository.getAllPas(cid);
         psgResults= PsgResult.objectToBean(listObject,PsgResult.class);
 
         return psgResults;
