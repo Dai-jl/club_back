@@ -2,7 +2,7 @@ package cn.edu.zucc.djl.club.repositpories;
 
 import cn.edu.zucc.djl.club.entity.ActivityEntity;
 import cn.edu.zucc.djl.club.entity.MemberTableEntity;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
+//import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

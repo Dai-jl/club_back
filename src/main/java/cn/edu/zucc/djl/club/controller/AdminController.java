@@ -7,7 +7,6 @@ import cn.edu.zucc.djl.club.formbean.ActivityResult;
 import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.repositpories.ActivityRespository;
 import cn.edu.zucc.djl.club.repositpories.AdminRespository;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
