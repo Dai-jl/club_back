@@ -33,6 +33,6 @@ public interface TimetableRepository extends JpaRepository<TimetableEntity,Integ
     //获得当前活动正在审核的活动场地的信息
     @Transactional
     @Query(value = "select c.r_id,c.name,t.start_time,t.end_time,t.reason from classroom c,timetable t where t.a_id=?1 and t.state is null and t.r_id=c.r_id",nativeQuery = true)
-    public List<Object[]> getWait(int aid);
+    List<Object[]> getWait(int aid);
 
 }
