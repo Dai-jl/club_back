@@ -7,6 +7,7 @@ import cn.edu.zucc.djl.club.formbean.ActivityResult;
 import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.repositpories.ActivityRespository;
 import cn.edu.zucc.djl.club.repositpories.AdminRespository;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,18 +33,19 @@ public class AdminController {
         AdminEntity adminEntity = adminRespository.getOne(id);
         if(loginForm.getPassword().equals(adminEntity.getPassword())){
             AdminEntity.setCurrentAdmin(adminEntity);
-            return new StateResult(200);
+            String type = adminEntity.getType();
+            return new StateResult(200,type);
         }
         return new StateResult(400);
     }
 
     //待审核活动 djl
-    @GetMapping("/api/admin/waittopassa/{aid}")
+    @PostMapping("/api/admin/waittopassa/{aid}")
     @CrossOrigin
-    public List<ActivityResult> waitToPass(@PathVariable String aid){
-        AdminEntity adminEntity = adminRespository.getOne(aid);
+    public List<ActivityResult> waitToPass(@PathVariable String aid,@RequestParam("type") String type){
+//        AdminEntity adminEntity = adminRespository.getOne(aid);
         List<Object[]> res;
-        if(adminEntity.getType().equals("class")){
+        if(type.equals("class")){
             res = activityRespository.findwaitToPass(aid);
         }
         else {
@@ -59,13 +61,13 @@ public class AdminController {
     }
 
 
-    //待审核活动 djl
-    @GetMapping("/api/admin/passa/{aid}")
+    //已审核活动 djl
+    @PostMapping("/api/admin/passa/{aid}")
     @CrossOrigin
-    public List<ActivityResult> alredyPass(@PathVariable String aid){
-        AdminEntity adminEntity = adminRespository.getOne(aid);
+    public List<ActivityResult> alredyPass(@PathVariable String aid,@RequestParam("type") String type){
+//        AdminEntity adminEntity = adminRespository.getOne(aid);
         List<Object[]> res;
-        if(adminEntity.getType().equals("class")){
+        if(type.equals("class")){
             res = activityRespository.findAlreadyPass(aid);
         }
         else{

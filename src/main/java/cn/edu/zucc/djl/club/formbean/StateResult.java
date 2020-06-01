@@ -3,6 +3,15 @@ package cn.edu.zucc.djl.club.formbean;
 public class StateResult {
     private int code;
     private int cId;
+    private String adminType;
+
+    public String getAdminType() {
+        return adminType;
+    }
+
+    public void setAdminType(String adminType) {
+        this.adminType = adminType;
+    }
 
     public int getcId() {
         return cId;
@@ -14,6 +23,10 @@ public class StateResult {
 
     public StateResult(int code){
         this.code = code;
+    }
+    public StateResult(int code,String adminType){
+        this.code = code;
+        this.adminType = adminType;
     }
     public StateResult(int code,int cId){
         this.code = code;
