@@ -22,10 +22,22 @@ public class ActivityResult  implements Serializable {
     private Double budget;
     private String detial;
     private byte[] image;
-    private Integer limit;
+    private Integer limitt;
     private Integer aPass;
     private Integer bPass;
     private String collegeName;
+
+    //通过获取数据加以赋值
+    private String time;
+    private String peopletype;
+
+    public String getPeopletype() {
+        return peopletype;
+    }
+
+    public void setPeopletype(String peopletype) {
+        this.peopletype = peopletype;
+    }
 
     public String getCollegeName() {
         return collegeName;
@@ -37,7 +49,7 @@ public class ActivityResult  implements Serializable {
 
     public ActivityResult(){};
     public ActivityResult(int aid,String activityName, String clubName, String className, Date applyDate, Timestamp startTime,Timestamp endTime,Integer number,Double budget,
-                          String detial,byte[] image,Integer limit,Integer aPass,Integer bPass,String collegeName){
+                          String detial,byte[] image,Integer limitt,Integer aPass,Integer bPass,String collegeName){
         this.aId = aid;
         this.className = className;
         this.activityName = activityName;
@@ -49,13 +61,25 @@ public class ActivityResult  implements Serializable {
         this.budget = budget;
         this.detial = detial;
         this.image = image;
-        this.limit = limit;
+        this.limitt = limitt;
         this.aPass = aPass;
         this.bPass = bPass;
         this.collegeName = collegeName;
 
+        this.time=startTime+"—"+endTime;
+
+        if(this.limitt == 1)  this.peopletype="面向全校";
+        else if(this.limitt == 2) this.peopletype="面向"+this.collegeName;
+        else this.peopletype="面向社团内部";
     }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getTime() {
+        return time;
+    }
 
     public String getActivityName() {
         return activityName;
@@ -146,11 +170,11 @@ public class ActivityResult  implements Serializable {
     }
 
     public Integer getLimit() {
-        return limit;
+        return limitt;
     }
 
     public void setLimit(Integer limit) {
-        this.limit = limit;
+        this.limitt = limit;
     }
 
     public Integer getaPass() {

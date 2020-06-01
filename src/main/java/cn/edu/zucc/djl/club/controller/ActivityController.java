@@ -1,29 +1,64 @@
 package cn.edu.zucc.djl.club.controller;
 
+import cn.edu.zucc.djl.club.entity.AdminEntity;
+import cn.edu.zucc.djl.club.form.ActivityForm;
+import cn.edu.zucc.djl.club.formbean.ActivityResult;
+import cn.edu.zucc.djl.club.repositpories.ActivityRespository;
 import cn.edu.zucc.djl.club.repositpories.CollegeRepository;
 import cn.edu.zucc.djl.club.repositpories.MemberRepository;
 import cn.edu.zucc.djl.club.repositpories.StudentRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
 public class ActivityController {
-    final MemberRepository memberRepository;
-    final StudentRepository studentRepository;
-    final CollegeRepository collegeRepository;
+    final ActivityRespository activityRespository;
 
-    ActivityController(MemberRepository memberRepository,StudentRepository studentRepository,CollegeRepository  collegeRepository)
+    ActivityController(ActivityRespository activityRespository)
     {
-        this.memberRepository = memberRepository;
-        this.studentRepository = studentRepository;
-        this.collegeRepository = collegeRepository;
+        this.activityRespository = activityRespository;
+
     }
 
-    //获得活动列表,sx
-    //@GetMapping('/api/activity/{cid}')
+    //获得审核未通过的活动列表（包括活动未通过或地点未通过的）,sx
+    @GetMapping("/api/activity/notpass/{cid}")
+    @ResponseBody
+    public List<ActivityResult> waitToabPass(@PathVariable int cid){
+        List<Object[]> activitirs =  activityRespository.findwaitToabPass(cid);
+        try{
+            List<ActivityResult> list = ActivityResult.objectToBean(activitirs,ActivityResult.class);
+            return list;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
 
+    //获得审核全部已通过的列表,sx
+    @GetMapping("/api/activity/ispass/{cid}")
+    @ResponseBody
+    public List<ActivityResult> isabPass(@PathVariable int cid){
+        List<Object[]> activitirs =  activityRespository.findisabPass(cid);
+        try{
+            List<ActivityResult> list = ActivityResult.objectToBean(activitirs,ActivityResult.class);
+            return list;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
 
+    //活动申请
+    @PostMapping("/api/activity/add")
+    public int addActivity(@RequestBody ActivityForm aF){
+        int succeed;
+
+        succeed=activityRespository.addActivity(aF.getName(),aF.getCid(),aF.getPlace(),new Date(),aF.getStart(),aF.getEnd(),aF.getNumber(),aF.getBudget(),aF.getDetail(),aF.getLimit());
+        System.out.println(succeed);
+        return succeed;
+    }
 
 }
