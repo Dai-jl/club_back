@@ -8,9 +8,12 @@ import java.util.Objects;
 @Table(name = "timetable", schema = "club", catalog = "")
 public class TimetableEntity {
     private int tId;
+    private int aId;
     private int rId;
     private Timestamp startTime;
     private Timestamp endTime;
+    private int state;
+    private String reason;
 
     @Id
     @Column(name = "t_id")
@@ -33,6 +36,16 @@ public class TimetableEntity {
     }
 
     @Basic
+    @Column(name = "a_id")
+    public int getaId() {
+        return aId;
+    }
+
+    public void setaId(int aId) {
+        this.aId = aId;
+    }
+
+    @Basic
     @Column(name = "start_time")
     public Timestamp getStartTime() {
         return startTime;
@@ -52,19 +65,38 @@ public class TimetableEntity {
         this.endTime = endTime;
     }
 
+    @Basic
+    @Column(name = "state")
+    public int getState(){return state;}
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    @Basic
+    @Column(name = "reason")
+    public String getReason(){return reason;}
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TimetableEntity that = (TimetableEntity) o;
         return tId == that.tId &&
+                aId == that.aId &&
                 rId == that.rId &&
                 Objects.equals(startTime, that.startTime) &&
-                Objects.equals(endTime, that.endTime);
+                Objects.equals(endTime, that.endTime) &&
+                state == that.state &&
+                reason ==that.reason;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tId, rId, startTime, endTime);
+        return Objects.hash(tId, aId, rId, startTime, endTime, state, reason);
     }
 }

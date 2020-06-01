@@ -23,7 +23,7 @@ public class ActivityEntity {
     private Double budget;
     private String detial;
     private byte[] image;
-    private Integer limit;
+    private Integer limitt;
     private Integer aPass;
     private Integer bPass;
 
@@ -139,13 +139,13 @@ public class ActivityEntity {
     }
 
     @Basic
-    @Column(name = "limit")
+    @Column(name = "limitt")
     public Integer getLimit() {
-        return limit;
+        return limitt;
     }
 
     public void setLimit(Integer limit) {
-        this.limit = limit;
+        this.limitt = limit;
     }
 
     @Basic
@@ -183,14 +183,14 @@ public class ActivityEntity {
                 Objects.equals(budget, that.budget) &&
                 Objects.equals(detial, that.detial) &&
                 Arrays.equals(image, that.image) &&
-                Objects.equals(limit, that.limit) &&
+                Objects.equals(limitt, that.limitt) &&
                 Objects.equals(aPass, that.aPass) &&
                 Objects.equals(bPass, that.bPass);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(aId, name,cId, rId, startTime, endTime, number, budget, detial, limit, aPass, bPass);
+        int result = Objects.hash(aId, name,cId, rId, startTime, endTime, number, budget, detial, limitt, aPass, bPass);
         result = 31 * result + Arrays.hashCode(image);
         return result;
     }
