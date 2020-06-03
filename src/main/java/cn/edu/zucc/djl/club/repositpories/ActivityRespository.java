@@ -40,34 +40,53 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     //djl
     //活动未审核列表
     @Transactional
-    @Query(value = "select c.a_id,c.activity_name,club.`name` club_name,c.`name` class_name,c.apply_date,c.start_time,c.end_time,c.number,c.budget,c.detial,c.image,c.limitt,c.a_pass,c.b_pass,club.college_name from \n" +
-            "            (select a.a_id,a.`name` activity_name,a.c_id,b.`name`,a.start_time,a.end_time,a.number,a.budget,a.detial,a.image,a.limitt,a.a_pass,a.b_pass,a.apply_date from activity a left join classroom  b on a.r_id = b.r_id) as c left join\n" +
-            "            (select club.c_id,club.`name`,college.c_name college_name,club.admin_id from club left join college on club.college_id = college.c_id) as club\n" +
-            "            on c.c_id = club.c_id where  club.admin_id = ?1 and c.a_pass is null",nativeQuery = true)
+    @Query(value = "select \n" +
+            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name\n" +
+            "from \n" +
+            "timetable_detail\n" +
+            "as t \n" +
+            "left join \n" +
+            "activity_detail as a on \n" +
+            "t.a_id = a.a_id\n" +
+            "where a.a_pass is null and t.admin_id = ?1",nativeQuery = true)
     List<Object[]>  findwaitToaPass(String aid);
 
     //活动已审核列表
     @Transactional
-    @Query(value = "select c.a_id,c.activity_name,club.`name` club_name,c.`name` class_name,c.apply_date,c.start_time,c.end_time,c.number,c.budget,c.detial,c.image,c.limitt,c.a_pass,c.b_pass,club.college_name from \n" +
-            "            (select a.a_id,a.`name` activity_name,a.c_id,b.`name`,a.start_time,a.end_time,a.number,a.budget,a.detial,a.image,a.limitt,a.a_pass,a.b_pass,a.apply_date from activity a left join classroom  b on a.r_id = b.r_id) as c left join\n" +
-            "            (select club.c_id,club.`name`,college.c_name college_name,club.admin_id from club left join college on club.college_id = college.c_id) as club\n" +
-            "            on c.c_id = club.c_id where  club.admin_id = ?1 and c.a_pass is null",nativeQuery = true)
+    @Query(value = "select \n" +
+            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name\n" +
+            "from \n" +
+            "timetable_detail\n" +
+            "as t \n" +
+            "left join \n" +
+            "activity_detail as a on \n" +
+            "t.a_id = a.a_id\n" +
+            "where a.a_pass is  not null and t.admin_id = ?1",nativeQuery = true)
     List<Object[]>  findAlreadyaPass(String aid);
 
     //地点未审核列表
     @Transactional
-    @Query(value = "select c.a_id,c.activity_name,club.`name` club_name,c.`name` class_name,c.apply_date,c.start_time,c.end_time,c.number,c.budget,c.detial,c.image,c.limitt,c.a_pass,c.b_pass,club.college_name from \n" +
-            "(select a.a_id,a.`name` activity_name,a.c_id,b.`name`,a.start_time,a.end_time,a.number,a.budget,a.detial,a.image,a.limitt,a.a_pass,a.b_pass,a.apply_date from activity a left join (select * from classroom where admin_id = ?1) b on a.r_id = b.r_id) as c left join \n" +
-            "(select club.c_id,club.`name`,college.c_name college_name from club left join college on club.college_id = college.c_id) as club\n" +
-            "on c.c_id = club.c_id where c.b_pass is null and c.a_pass = 1",nativeQuery = true)
+    @Query(value = "select \n" +
+            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name\n" +
+            "from \n" +
+            "timetable_detail as t \n" +
+            "left join \n" +
+            "activity_detail as a on \n" +
+            "t.a_id = a.a_id\n" +
+            "where t.state is null and t.admin_id = ?1",nativeQuery = true)
     List<Object[]>  findwaitToPass(String aid);
 
     //地点已审核列表
     @Transactional
-    @Query(value = "select c.a_id,c.activity_name,club.`name` club_name,c.`name` class_name,c.apply_date,c.start_time,c.end_time,c.number,c.budget,c.detial,c.image,c.limitt,c.a_pass,c.b_pass,club.college_name from \n" +
-            "(select a.a_id,a.`name` activity_name,a.c_id,b.`name`,a.start_time,a.end_time,a.number,a.budget,a.detial,a.image,a.limitt,a.a_pass,a.b_pass,a.apply_date from activity a left join (select * from classroom where admin_id = ?1) b on a.r_id = b.r_id) as c left join \n" +
-            "(select club.c_id,club.`name`,college.c_name college_name from club left join college on club.college_id = college.c_id) as club\n" +
-            "on c.c_id = club.c_id where c.b_pass is not null",nativeQuery = true)
+    @Query(value = "select \n" +
+            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name\n" +
+            "from \n" +
+            "timetable_detail\n" +
+            "as t \n" +
+            "left join \n" +
+            "activity_detail as a on \n" +
+            "t.a_id = a.a_id\n" +
+            "where t.state is not null and t.admin_id = 1",nativeQuery = true)
     List<Object[]>  findAlreadyPass(String aid);
 
     //活动通过
@@ -84,13 +103,13 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
 
     //通过活动地点
     @Transactional
-    @Query(value = "update  activity set b_pass=1 where a_id=?1 ",nativeQuery = true)
+    @Query(value = "update  timetable set state = 1 where t_id=?1 ",nativeQuery = true)
     @Modifying
-    int toPassAddress(int aid);
+    int toPassAddress(int tid);
 
     //取消活动地点
     @Transactional
-    @Query(value = "update  activity set b_pass=0 where a_id=?1 ",nativeQuery = true)
+    @Query(value = "update timetable set state = 0,reason = ?2 where t_id=?1 ",nativeQuery = true)
     @Modifying
-    int toCancelAddress(int aid);
+    int toCancelAddress(int tid,String reason);
 }
