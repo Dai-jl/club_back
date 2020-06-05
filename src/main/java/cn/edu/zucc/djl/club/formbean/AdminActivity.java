@@ -22,9 +22,32 @@ public class AdminActivity  implements Serializable {
     private byte[] image;
     private Integer limitt;
     private String collegeName;
+    private Integer aPass;
+
+    public Integer getaPass() {
+        return aPass;
+    }
+
+    public void setaPass(Integer aPass) {
+        this.aPass = aPass;
+    }
 
     public AdminActivity(){};
-    public AdminActivity(int tId, Timestamp startTime, Timestamp endTime, String className, Integer state, String reason, Integer aId, String activityName, String clubName, Integer number, Double budget, String detial, byte[] image, Integer limitt, String collegeName){
+    public AdminActivity(Timestamp startTime, Timestamp endTime,Integer aId, String activityName, String clubName, Integer number, Double budget, String detial, byte[] image, Integer limitt, String collegeName,Integer aPass){
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.aId = aId;
+      this.activityName = activityName;
+      this.clubName = clubName;
+      this.number = number;
+      this.budget = budget;
+      this.detial = detial;
+      this.image = image;
+      this.limitt = limitt;
+      this.collegeName = collegeName;
+      this.aPass = aPass;
+    };
+    public AdminActivity(int tId, Timestamp startTime, Timestamp endTime, String className, Integer state, String reason, Integer aId, String activityName, String clubName, Integer number, Double budget, String detial, byte[] image, Integer limitt, String collegeName,Integer aPass){
         this.tId = tId;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -40,6 +63,7 @@ public class AdminActivity  implements Serializable {
         this.image = image;
         this.limitt = limitt;
         this.collegeName = collegeName;
+        this.aPass = aPass;
     };
 
     public int gettId() {

@@ -41,33 +41,23 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     //活动未审核列表
     @Transactional
     @Query(value = "select \n" +
-            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name\n" +
-            "from \n" +
-            "timetable_detail\n" +
-            "as t \n" +
-            "left join \n" +
-            "activity_detail as a on \n" +
-            "t.a_id = a.a_id\n" +
-            "where a.a_pass is null and t.admin_id = ?1",nativeQuery = true)
+            "            a.start_time,a.end_time,a.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
+            "            from activity_detail as a \n" +
+            "            where a.a_pass is null and a.admin_id = ?1 ",nativeQuery = true)
     List<Object[]>  findwaitToaPass(String aid);
 
     //活动已审核列表
     @Transactional
     @Query(value = "select \n" +
-            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name\n" +
-            "from \n" +
-            "timetable_detail\n" +
-            "as t \n" +
-            "left join \n" +
-            "activity_detail as a on \n" +
-            "t.a_id = a.a_id\n" +
-            "where a.a_pass is  not null and t.admin_id = ?1",nativeQuery = true)
+            "            a.start_time,a.end_time,a.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
+            "            from activity_detail as a \n" +
+            "            where a.a_pass is not null and a.admin_id = 2 ",nativeQuery = true)
     List<Object[]>  findAlreadyaPass(String aid);
 
     //地点未审核列表
     @Transactional
     @Query(value = "select \n" +
-            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name\n" +
+            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
             "from \n" +
             "timetable_detail as t \n" +
             "left join \n" +
@@ -79,7 +69,7 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     //地点已审核列表
     @Transactional
     @Query(value = "select \n" +
-            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name\n" +
+            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
             "from \n" +
             "timetable_detail\n" +
             "as t \n" +
@@ -103,9 +93,9 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
 
     //通过活动地点
     @Transactional
-    @Query(value = "update  timetable set state = 1 where t_id=?1 ",nativeQuery = true)
+    @Query(value = "update timetable,activity set timetable.state = 1,activity.b_pass = 1 where timetable.t_id = ?1  and activity.a_id = ?2",nativeQuery = true)
     @Modifying
-    int toPassAddress(int tid);
+    int toPassAddress(int tid,int aid);
 
     //取消活动地点
     @Transactional

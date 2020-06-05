@@ -9,6 +9,7 @@ import cn.edu.zucc.djl.club.repositpories.ActivityRespository;
 import cn.edu.zucc.djl.club.repositpories.AdminRespository;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.List;
 
 
@@ -30,6 +31,9 @@ public class AdminController {
     public StateResult login(@RequestBody LoginForm loginForm){
         String id = loginForm.getId();
         AdminEntity adminEntity = adminRespository.getOne(id);
+        if(adminEntity == null){
+            return new StateResult(300);
+        }
         if(loginForm.getPassword().equals(adminEntity.getPassword())){
             AdminEntity.setCurrentAdmin(adminEntity);
             String type = adminEntity.getType();
@@ -53,7 +57,6 @@ public class AdminController {
             List<AdminActivity> list = ActivityResult.objectToBean(res, AdminActivity.class);
             return list;
         }catch (Exception e){
-            System.out.println(e+"---------this error");
             return null;
         }
 
@@ -64,14 +67,13 @@ public class AdminController {
     @PostMapping("/api/admin/passa/{aid}")
     @CrossOrigin
     public List<AdminActivity> alredyPass(@PathVariable String aid,@RequestParam("type") String type){
-//        AdminEntity adminEntity = adminRespository.getOne(aid);
         List<Object[]> res;
         if(type.equals("class")){
             res = activityRespository.findAlreadyPass(aid);
         }
         else{
-            res = activityRespository.findAlreadyPass(aid);
-//            res = activityRespository.findAlreadyaPass(aid);
+//            res = activityRespository.findAlreadyPass(aid);
+            res = activityRespository.findAlreadyaPass(aid);
         }
         try{
             List<AdminActivity> list = ActivityResult.objectToBean(res,AdminActivity.class);
@@ -87,7 +89,7 @@ public class AdminController {
     @CrossOrigin
     public StateResult pass(@RequestParam("aid") int aid,@RequestParam("tid") int tid,@RequestParam("type") String type){
         if(type.equals("class")){
-            if(activityRespository.toPassAddress(tid) != 0){
+            if(activityRespository.toPassAddress(tid,aid) != 0){
                 return new StateResult(200);
             }
         }
