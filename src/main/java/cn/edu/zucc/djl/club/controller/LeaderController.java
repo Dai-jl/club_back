@@ -4,6 +4,7 @@ import cn.edu.zucc.djl.club.entity.CollegeEntity;
 import cn.edu.zucc.djl.club.entity.MemberTableEntity;
 import cn.edu.zucc.djl.club.entity.StudentEntity;
 import cn.edu.zucc.djl.club.form.LoginForm;
+import cn.edu.zucc.djl.club.form.MemeditForm;
 import cn.edu.zucc.djl.club.formbean.College;
 import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.formbean.StuResult;
@@ -90,6 +91,15 @@ public class LeaderController {
                 return 0;
         }else
             return 0;
+    }
+
+    //编辑成员 sx
+    @PostMapping("/api/leader/editMember")
+    public int editMember(@RequestBody MemeditForm form){
+        int succeed;
+
+        succeed=studentRepository.editMember(form.getId(),form.getPhone());
+        return succeed;
     }
 
     //添加成员 czq
