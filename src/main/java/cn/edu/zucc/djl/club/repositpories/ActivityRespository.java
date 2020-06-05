@@ -36,7 +36,6 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     @Modifying
     int addActivity(String name,int cid, int rid, Date app, Timestamp start,Timestamp end,int num,double bud,String de,int li);
 
-
     //djl
     //活动未审核列表
     @Transactional
