@@ -9,9 +9,7 @@ import cn.edu.zucc.djl.club.formbean.College;
 import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.formbean.StuResult;
 import cn.edu.zucc.djl.club.formbean.Student;
-import cn.edu.zucc.djl.club.repositpories.CollegeRepository;
-import cn.edu.zucc.djl.club.repositpories.MemberRepository;
-import cn.edu.zucc.djl.club.repositpories.StudentRepository;
+import cn.edu.zucc.djl.club.repositpories.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
@@ -28,11 +26,15 @@ public class LeaderController {
     final MemberRepository memberRepository;
     final StudentRepository studentRepository;
     final CollegeRepository collegeRepository;
-    LeaderController(MemberRepository memberRepository,StudentRepository studentRepository,CollegeRepository collegeRepository)
+    final ActivityRespository activityRespository;
+    final TimetableRepository timetableRepository;
+    LeaderController(MemberRepository memberRepository,StudentRepository studentRepository,CollegeRepository collegeRepository,ActivityRespository activityRespository,TimetableRepository timetableRepository)
     {
         this.memberRepository = memberRepository;
         this.studentRepository = studentRepository;
         this.collegeRepository = collegeRepository;
+        this.activityRespository = activityRespository;
+        this.timetableRepository = timetableRepository;
     }
 
     //获得成员列表，sx
@@ -91,6 +93,19 @@ public class LeaderController {
                 return 0;
         }else
             return 0;
+    }
+
+    //取消活动申请
+    @GetMapping("/api/leader/cancelActivity/{aid}")
+    @ResponseBody
+    public int cancel(@PathVariable int aid){
+        int succeed;
+
+        succeed=activityRespository.cancelActivity1(aid);
+        if(succeed==1)
+            succeed=timetableRepository.cancelActivity2(aid);
+
+        return succeed;
     }
 
     //编辑成员 sx

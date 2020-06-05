@@ -35,4 +35,10 @@ public interface TimetableRepository extends JpaRepository<TimetableEntity,Integ
     @Query(value = "select c.r_id,c.name,t.start_time,t.end_time,t.reason from classroom c,timetable t where t.a_id=?1 and t.state is null and t.r_id=c.r_id",nativeQuery = true)
     List<Object[]> getWait(int aid);
 
+    //取消活动申请,修改timetable的state状态
+    @Transactional
+    @Query(value = "update timetable set state = 0 ,reason='社自动取消申请' where a_id=?1",nativeQuery = true)
+    @Modifying
+    int cancelActivity2(int aid);
+
 }
