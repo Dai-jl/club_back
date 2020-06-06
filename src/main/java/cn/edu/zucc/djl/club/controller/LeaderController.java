@@ -95,7 +95,7 @@ public class LeaderController {
             return 0;
     }
 
-    //取消活动申请
+    //取消活动申请,sx
     @GetMapping("/api/leader/cancelActivity/{aid}")
     @ResponseBody
     public int cancel(@PathVariable int aid){
