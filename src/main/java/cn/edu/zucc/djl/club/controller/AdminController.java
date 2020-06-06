@@ -7,6 +7,9 @@ import cn.edu.zucc.djl.club.formbean.AdminActivity;
 import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.repositpories.ActivityRespository;
 import cn.edu.zucc.djl.club.repositpories.AdminRespository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
@@ -15,6 +18,8 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@Api(tags = "管理员审批相关接口")
+@RequestMapping("/api/admin")
 public class AdminController {
     final AdminRespository adminRespository;
     final ActivityRespository activityRespository;
@@ -25,9 +30,8 @@ public class AdminController {
     }
 
 
-    //管理员登陆，djl
-    @PostMapping("/api/admin/login")
-    @CrossOrigin
+    @PostMapping("/login")
+    @ApiOperation("管理员登陆,djl")
     public StateResult login(@RequestBody LoginForm loginForm){
         String id = loginForm.getId();
         AdminEntity adminEntity = adminRespository.getOne(id);
@@ -42,9 +46,10 @@ public class AdminController {
         return new StateResult(400);
     }
 
-    //待审核活动 djl
-    @PostMapping("/api/admin/waittopassa/{aid}")
-    @CrossOrigin
+
+    @PostMapping("/waittopassa/{aid}")
+    @ApiOperation("获得待审核活动列表,djl")
+    @ApiImplicitParam(name = "aid",value = "活动id",dataType = "String")
     public List<AdminActivity> waitToPass(@PathVariable String aid,@RequestParam("type") String type){
         List<Object[]> res;
         if(type.equals("class")){
@@ -63,9 +68,9 @@ public class AdminController {
     }
 
 
-    //已审核活动 djl
-    @PostMapping("/api/admin/passa/{aid}")
-    @CrossOrigin
+    @PostMapping("/passa/{aid}")
+    @ApiOperation("获得已审核活动列表,djl")
+    @ApiImplicitParam(name = "aid",value = "活动id",dataType = "String")
     public List<AdminActivity> alredyPass(@PathVariable String aid,@RequestParam("type") String type){
         List<Object[]> res;
         if(type.equals("class")){
@@ -84,9 +89,9 @@ public class AdminController {
         }
     }
 
-    //通过活动 djl
-    @PostMapping("/api/admin/passactivity")
-    @CrossOrigin
+
+    @PostMapping("/passactivity")
+    @ApiOperation("通过活动,djl")
     public StateResult pass(@RequestParam("aid") int aid,@RequestParam("tid") int tid,@RequestParam("type") String type){
         if(type.equals("class")){
             if(activityRespository.toPassAddress(tid,aid) != 0){
@@ -101,9 +106,9 @@ public class AdminController {
         return new StateResult(400);
     }
 
-    //取消活动 djl
+
     @PostMapping("/api/admin/cancelactivity")
-    @CrossOrigin
+    @ApiOperation("取消活动,djl")
     public StateResult cancel(@RequestParam("aid") int aid,@RequestParam("tid") int tid,@RequestParam("type") String type,@RequestParam("reason") String reason){
         if(type.equals("class")){
             if(activityRespository.toCancelAddress(tid,reason) != 0){

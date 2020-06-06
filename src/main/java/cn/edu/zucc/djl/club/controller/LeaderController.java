@@ -10,6 +10,10 @@ import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.formbean.StuResult;
 import cn.edu.zucc.djl.club.formbean.Student;
 import cn.edu.zucc.djl.club.repositpories.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
@@ -22,6 +26,8 @@ import org.springframework.beans.BeanUtils;
 
 @CrossOrigin
 @RestController
+@Api(tags = "社长职能相关接口")
+@RequestMapping("/api/leader")
 public class LeaderController {
     final MemberRepository memberRepository;
     final StudentRepository studentRepository;
@@ -37,15 +43,20 @@ public class LeaderController {
         this.timetableRepository = timetableRepository;
     }
 
-    //获得成员列表，sx
-    @GetMapping("/api/leader/member/{id}/{state}")
+
+    @GetMapping("/member/{id}/{state}")
+    @ApiOperation("获得社团成员列表，sx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "社团id",dataType = "int"),
+            @ApiImplicitParam(name = "state",value = "指定社团成员状态，在社1/离社0",dataType = "int")
+    })
     @ResponseBody
     public List<StuResult> listAllMember(@PathVariable int id,@PathVariable int state) throws Exception {
         //优化使用多表查询，使性能提高
         //分页在前端进行模拟
-        List<Object[]> memberMsg = memberRepository.getMemList(id,state);
+        List<Object[]> memberMsg = memberRepository.getMemList(id, state);
 
-        List<StuResult> results=StuResult.objectToBean(memberMsg,StuResult.class);
+        List<StuResult> results = StuResult.objectToBean(memberMsg, StuResult.class);
         System.out.println(results.size());
         return results;
 
@@ -77,26 +88,9 @@ public class LeaderController {
     }
 
 
-    //转让社长，sx
-    //传参：社团cid + 被转让成员uid
-    //返回1说明社长转让成功，则该学生失去社长权限（页面可以跳转到“亲爱的XX同学，感谢这段时间的陪伴，再见！）”
-    @GetMapping("/api/leader/change/{cid}/{uidL}/{uidM}")
-    @ResponseBody
-    public int transferLeader(@PathVariable int cid,@PathVariable String uidL,@PathVariable String  uidM){
-        int succeed=-1;
-        succeed=memberRepository.transferMsgLeader(uidL,cid);
-        if(succeed>0){
-            succeed=memberRepository.transferMsgMem(uidM,cid);
-            if(succeed>0)
-                return 1;
-            else
-                return 0;
-        }else
-            return 0;
-    }
-
-    //取消活动申请,sx
-    @GetMapping("/api/leader/cancelActivity/{aid}")
+    @GetMapping("/cancelActivity/{aid}")
+    @ApiOperation("取消活动的申请,sx")
+    @ApiImplicitParam(name = "aid",value = "社团id",dataType = "int")
     @ResponseBody
     public int cancel(@PathVariable int aid){
         int succeed;
@@ -108,8 +102,9 @@ public class LeaderController {
         return succeed;
     }
 
-    //编辑成员 sx
-    @PostMapping("/api/leader/editMember")
+
+    @PostMapping("/editMember")
+    @ApiOperation("编辑社团成员信息，sx")
     public int editMember(@RequestBody MemeditForm form){
         int succeed;
 
@@ -117,8 +112,9 @@ public class LeaderController {
         return succeed;
     }
 
-    //添加成员 czq
-    @PostMapping("/api/leader/addmember")
+
+    @PostMapping("/addmember")
+    @ApiOperation("添加社团成员,czq")
     public String addMember(@RequestBody Map<String, String> res){
         StudentEntity studentEntity=new StudentEntity();
         String uid=res.get("number");
@@ -153,8 +149,10 @@ public class LeaderController {
         }
         return "添加成功";
     }
-    //删除成员 czq
-    @PostMapping("/api/leader/deletemember")
+
+
+    @PostMapping("/deletemember")
+    @ApiOperation("删除社团成员,czq")
     @ResponseBody
     public String deleteMember(@RequestBody Map<String, String> res){
         try {
@@ -168,8 +166,8 @@ public class LeaderController {
     }
 
 
-    //通过关键字搜索成员列表，czq
-    @PostMapping("/api/leader/searchmember")
+    @PostMapping("/searchmember")
+    @ApiOperation("通过关键字搜索成员列表，czq")
     @ResponseBody
     public List<StuResult> searchMember(@RequestBody Map<String,String> res) throws Exception {
         int cid=Integer.parseInt(res.get("cid"));
@@ -184,10 +182,8 @@ public class LeaderController {
     }
 
 
-
-    //社长登陆，djl
-    @PostMapping("/api/leader/login")
-    @CrossOrigin
+    @PostMapping("/login")
+    @ApiOperation("社长登陆，djl")
     public Object login(@RequestBody LoginForm loginForm){
         String id = loginForm.getId();
         MemberTableEntity memberTableEntity = memberRepository.findByUId(id);

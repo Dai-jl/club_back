@@ -1,16 +1,29 @@
 package cn.edu.zucc.djl.club.form;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 
+@ApiModel
 public class ActivityForm {
+    @ApiModelProperty(value = "社团id")
     int cid;
+    @ApiModelProperty(value = "活动场地id")
     int place;
+    @ApiModelProperty(value = "场地使用的开始时间")
     Timestamp start;
+    @ApiModelProperty(value = "场地使用的结束时间")
     Timestamp end;
+    @ApiModelProperty(value = "活动人数")
     int number;
+    @ApiModelProperty(value = "活动预算")
     double budget;
+    @ApiModelProperty(value = "活动内容")
     String detail;
+    @ApiModelProperty(value = "活动限制")
     int limit;
+    @ApiModelProperty(value = "活动标题")
     String name;
 
     public int getCid() {

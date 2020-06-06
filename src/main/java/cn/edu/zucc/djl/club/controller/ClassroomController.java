@@ -1,13 +1,14 @@
 package cn.edu.zucc.djl.club.controller;
 
-
-import ch.qos.logback.core.db.dialect.DBUtil;
 import cn.edu.zucc.djl.club.entity.ClassroomEntity;
 import cn.edu.zucc.djl.club.form.RoomForm;
 import cn.edu.zucc.djl.club.formbean.RoomResult;
 import cn.edu.zucc.djl.club.formbean.TtResult;
 import cn.edu.zucc.djl.club.repositpories.ClassroomRepository;
 import cn.edu.zucc.djl.club.repositpories.TimetableRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
+@Api(tags = "活动场地相关接口")
+@RequestMapping("/api/classroom")
 public class ClassroomController {
     final ClassroomRepository classroomRepository;
     final TimetableRepository timetableRepository;
@@ -24,8 +27,9 @@ public class ClassroomController {
         this.timetableRepository=timetableRepository;
     }
 
-    //获得所有活动地点列表
-    @GetMapping("/api/classroom/list")
+
+    @GetMapping("/list")
+    @ApiOperation("获得所有活动场地列表，sx")
     @ResponseBody
     public List<RoomResult> getClaList(){
         List<ClassroomEntity> cE=classroomRepository.findAll();
@@ -41,8 +45,9 @@ public class ClassroomController {
         return roomResults;
     }
 
-    //获得场地审批成功的活动地点列表
-    @GetMapping("/api/classroom/isPassList")
+
+    @GetMapping("/isPassList")
+    @ApiOperation("获得审批成功的场地及使用时间的列表，sx")
     @ResponseBody
     public List<TtResult> getisPass() throws Exception {
         List<Object[]> obj=timetableRepository.getPass();
@@ -53,8 +58,9 @@ public class ClassroomController {
         return res;
     }
 
-    //提交地点审核
-    @PostMapping("/api/classroom/check")
+
+    @PostMapping("/check")
+    @ApiOperation("选择并提交地点审核，sx")
     public int checkForRoom(@RequestBody RoomForm room){
         int succeed;
 
@@ -62,8 +68,10 @@ public class ClassroomController {
         return succeed;
     }
 
-    //获得某社团场地申请未通过的列表
-    @GetMapping("/api/classroom/notPass/{aid}")
+
+    @GetMapping("/notPass/{aid}")
+    @ApiOperation("获得指定活动场地申请未通过的列表，方便在场地申请处有记录的展示，sx")
+    @ApiImplicitParam(name = "aid",value = "活动id",dataType = "int")
     @ResponseBody
     public List<TtResult> getNotPass(@PathVariable int aid) throws Exception {
         List<Object[]> res=timetableRepository.getnotPass(aid);
@@ -75,7 +83,9 @@ public class ClassroomController {
     }
 
     //获得当前正在审核的活动场地
-    @GetMapping("/api/classroom/waitPass/{aid}")
+    @GetMapping("/waitPass/{aid}")
+    @ApiOperation("获得指定活动的正在进行场地审核的列表，sx")
+    @ApiImplicitParam(name = "aid",value = "活动id",dataType = "int")
     @ResponseBody
     public List<TtResult> getRoomName(@PathVariable int aid) throws Exception {
         List<Object[]> res=timetableRepository.getWait(aid);

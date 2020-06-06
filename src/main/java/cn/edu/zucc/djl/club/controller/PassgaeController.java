@@ -9,6 +9,10 @@ import cn.edu.zucc.djl.club.repositpories.MemberRepository;
 import cn.edu.zucc.djl.club.repositpories.PassgaeRespository;
 import cn.edu.zucc.djl.club.repositpories.StudentRepository;
 import com.fasterxml.jackson.databind.util.BeanUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.omg.CORBA.Request;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +27,8 @@ import static cn.edu.zucc.djl.club.entity.StudentEntity.currentStudent;
 
 @CrossOrigin
 @RestController
+@Api(tags = "推送发布相关接口")
+@RequestMapping("/api/passage")
 public class PassgaeController {
     final PassgaeRespository passgaeRespository;
 
@@ -31,10 +37,10 @@ public class PassgaeController {
         this.passgaeRespository = passgaeRespository;
     }
 
-    //获得列表
-    //方式一：（初始化方法）
-    //获得活动推送的全部列表,sx
-    @GetMapping("/api/passage/show1/{cid}")
+
+    @GetMapping("/show1/{cid}")
+    @ApiOperation("获得活动推送的全部列表,sx")
+    @ApiImplicitParam(name = "cid",value = "社团id",dataType = "int")
     @ResponseBody
     public List<PsgResult> getAllPsList(@PathVariable int cid) throws Exception {
         List<PsgResult>  psgResults=new ArrayList<PsgResult>();
@@ -45,10 +51,13 @@ public class PassgaeController {
         return psgResults;
     }
 
-    //方式二：
-    //按输入搜索内容(keyStr)的范围进行推送的查找
-    //模糊查询,sx
-    @GetMapping("/api/passage/show2/{cid}/{keyStr}")
+
+    @GetMapping("/show2/{cid}/{keyStr}")
+    @ApiOperation("按输入搜索内容(keyStr)的范围进行推送的查找，模糊查询,sx")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cid",value = "社团id",dataType = "int"),
+            @ApiImplicitParam(name = "keyStr",value = "搜索关键字",dataType = "String")
+    })
     @ResponseBody
     public List<PsgResult> getLessPsList(@PathVariable int cid, @PathVariable String keyStr) throws Exception {
         List<PsgResult>  psgResults=new ArrayList<PsgResult>();
@@ -65,8 +74,8 @@ public class PassgaeController {
     }
 
 
-    //发布活动推送,sx
-    @PostMapping("/api/passage/putup")
+    @PostMapping("/putup")
+    @ApiOperation("发布活动推送,sx")
     public int putPsg(@RequestBody PassageForm psg){
         int succeed;
         succeed=passgaeRespository.addPsg(psg.getCid(),psg.getName(),psg.getContent(),psg.getImg(),new Date(),psg.getUrl());
@@ -74,8 +83,10 @@ public class PassgaeController {
         return succeed;
     }
 
-    //删除活动推送，sx
-    @GetMapping("/api/passage/delete/{pid}")
+
+    @GetMapping("/delete/{pid}")
+    @ApiOperation("删除活动推送，sx")
+    @ApiImplicitParam(name = "pid",value = "推送id",dataType = "int")
     @ResponseBody
     public int deletePsg(@PathVariable int pid){
         int succeed;
@@ -85,13 +96,13 @@ public class PassgaeController {
     }
 
     //修改活动推送，sx
-    @PostMapping("/api/passage/modify")
-    public int modifyPsg(@RequestBody PassageForm psg){
-        int succeed;
-        succeed=passgaeRespository.modifyPsg(psg.getName(),psg.getContent(),psg.getPid());
-
-        return succeed;
-    }
+//    @PostMapping("/modify")
+//    public int modifyPsg(@RequestBody PassageForm psg){
+//        int succeed;
+//        succeed=passgaeRespository.modifyPsg(psg.getName(),psg.getContent(),psg.getPid());
+//
+//        return succeed;
+//    }
 
 
 }
