@@ -47,10 +47,10 @@ public class AdminController {
     }
 
 
-    @PostMapping("/waittopassa/{aid}")
+    @PostMapping("/waittopass")
     @ApiOperation("获得待审核活动列表,djl")
     @ApiImplicitParam(name = "aid",value = "活动id",dataType = "String")
-    public List<AdminActivity> waitToPass(@PathVariable String aid,@RequestParam("type") String type){
+    public List<AdminActivity> waitToPass(@RequestParam("id") String aid,@RequestParam("type") String type){
         List<Object[]> res;
         if(type.equals("class")){
             res = activityRespository.findwaitToPass(aid);
@@ -68,10 +68,10 @@ public class AdminController {
     }
 
 
-    @PostMapping("/passa/{aid}")
+    @PostMapping("/pass")
     @ApiOperation("获得已审核活动列表,djl")
     @ApiImplicitParam(name = "aid",value = "活动id",dataType = "String")
-    public List<AdminActivity> alredyPass(@PathVariable String aid,@RequestParam("type") String type){
+    public List<AdminActivity> alredyPass(@RequestParam("id") String aid,@RequestParam("type") String type){
         List<Object[]> res;
         if(type.equals("class")){
             res = activityRespository.findAlreadyPass(aid);
