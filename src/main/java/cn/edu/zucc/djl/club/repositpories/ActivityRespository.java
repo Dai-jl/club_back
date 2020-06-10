@@ -46,7 +46,7 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     //活动未审核列表
     @Transactional
     @Query(value = "select \n" +
-            "            a.start_time,a.end_time,a.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
+            "            a.start_time,a.end_time,a.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass,a.b_pass\n" +
             "            from activity_detail as a \n" +
             "            where a.a_pass is null and a.admin_id = ?1 ",nativeQuery = true)
     List<Object[]>  findwaitToaPass(String aid);
@@ -54,7 +54,7 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     //活动已审核列表
     @Transactional
     @Query(value = "select \n" +
-            "            a.start_time,a.end_time,a.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
+            "            a.start_time,a.end_time,a.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass,a.b_pass\n" +
             "            from activity_detail as a \n" +
             "            where a.a_pass is not null and a.admin_id =  ?1 ",nativeQuery = true)
     List<Object[]>  findAlreadyaPass(String aid);

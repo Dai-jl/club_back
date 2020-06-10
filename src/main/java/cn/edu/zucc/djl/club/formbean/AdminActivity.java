@@ -23,6 +23,15 @@ public class AdminActivity  implements Serializable {
     private Integer limitt;
     private String collegeName;
     private Integer aPass;
+    private Integer bPass;
+
+    public Integer getbPass() {
+        return bPass;
+    }
+
+    public void setbPass(Integer bPass) {
+        this.bPass = bPass;
+    }
 
     public Integer getaPass() {
         return aPass;
@@ -33,7 +42,7 @@ public class AdminActivity  implements Serializable {
     }
 
     public AdminActivity(){};
-    public AdminActivity(Timestamp startTime, Timestamp endTime,Integer aId, String activityName, String clubName, Integer number, Double budget, String detial, byte[] image, Integer limitt, String collegeName,Integer aPass){
+    public AdminActivity(Timestamp startTime, Timestamp endTime,Integer aId, String activityName, String clubName, Integer number, Double budget, String detial, byte[] image, Integer limitt, String collegeName,Integer aPass,Integer bPass){
         this.startTime = startTime;
         this.endTime = endTime;
         this.aId = aId;
@@ -46,6 +55,7 @@ public class AdminActivity  implements Serializable {
       this.limitt = limitt;
       this.collegeName = collegeName;
       this.aPass = aPass;
+      this.bPass = bPass;
     };
     public AdminActivity(int tId, Timestamp startTime, Timestamp endTime, String className, Integer state, String reason, Integer aId, String activityName, String clubName, Integer number, Double budget, String detial, byte[] image, Integer limitt, String collegeName,Integer aPass){
         this.tId = tId;
