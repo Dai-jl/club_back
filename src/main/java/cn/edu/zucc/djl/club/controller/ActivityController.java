@@ -1,5 +1,6 @@
 package cn.edu.zucc.djl.club.controller;
 
+import cn.edu.zucc.djl.club.config.UserLoginToken;
 import cn.edu.zucc.djl.club.entity.AdminEntity;
 import cn.edu.zucc.djl.club.form.ActivityForm;
 import cn.edu.zucc.djl.club.formbean.ActivityResult;
@@ -28,7 +29,7 @@ public class ActivityController {
 
     }
 
-
+    @UserLoginToken(type ="leader")
     @GetMapping("/notpass/{cid}")
     @ApiOperation("获得审核未通过的活动列表（包括活动未通过或地点未通过的）,sx")
     @ApiImplicitParam(name = "cid",value = "社团id",dataType = "int")
@@ -44,7 +45,7 @@ public class ActivityController {
         }
     }
 
-
+    @UserLoginToken(type ="leader")
     @GetMapping("/ispass/{cid}")
     @ApiOperation("获得审核全部已通过的列表,sx")
     @ApiImplicitParam(name = "cid",value = "社团id",dataType = "int")
@@ -60,7 +61,7 @@ public class ActivityController {
         }
     }
 
-
+    @UserLoginToken(type ="leader")
     @PostMapping("/add")
     @ApiOperation("活动申请,sx")
     public int addActivity(@RequestBody ActivityForm aF){

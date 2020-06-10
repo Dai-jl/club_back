@@ -1,5 +1,6 @@
 package cn.edu.zucc.djl.club.controller;
 
+import cn.edu.zucc.djl.club.config.UserLoginToken;
 import cn.edu.zucc.djl.club.entity.ClassroomEntity;
 import cn.edu.zucc.djl.club.form.RoomForm;
 import cn.edu.zucc.djl.club.formbean.RoomResult;
@@ -27,7 +28,7 @@ public class ClassroomController {
         this.timetableRepository=timetableRepository;
     }
 
-
+    @UserLoginToken(type ="leader")
     @GetMapping("/list")
     @ApiOperation("获得所有活动场地列表，sx")
     @ResponseBody
@@ -45,7 +46,7 @@ public class ClassroomController {
         return roomResults;
     }
 
-
+    @UserLoginToken(type ="leader")
     @GetMapping("/isPassList")
     @ApiOperation("获得审批成功的场地及使用时间的列表，sx")
     @ResponseBody
@@ -58,7 +59,7 @@ public class ClassroomController {
         return res;
     }
 
-
+    @UserLoginToken(type ="leader")
     @PostMapping("/check")
     @ApiOperation("选择并提交地点审核，sx")
     public int checkForRoom(@RequestBody RoomForm room){
@@ -68,7 +69,7 @@ public class ClassroomController {
         return succeed;
     }
 
-
+    @UserLoginToken(type ="leader")
     @GetMapping("/notPass/{aid}")
     @ApiOperation("获得指定活动场地申请未通过的列表，方便在场地申请处有记录的展示，sx")
     @ApiImplicitParam(name = "aid",value = "活动id",dataType = "int")
@@ -83,6 +84,7 @@ public class ClassroomController {
     }
 
     //获得当前正在审核的活动场地
+    @UserLoginToken(type ="leader")
     @GetMapping("/waitPass/{aid}")
     @ApiOperation("获得指定活动的正在进行场地审核的列表，sx")
     @ApiImplicitParam(name = "aid",value = "活动id",dataType = "int")

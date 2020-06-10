@@ -1,6 +1,10 @@
 package cn.edu.zucc.djl.club.entity;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -57,5 +61,13 @@ public class AdminEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, password, type);
+    }
+
+
+    public String getToken(AdminEntity admin){
+        String token = "";
+        token = JWT.create().withAudience(admin.getId())
+                .sign(Algorithm.HMAC256(admin.getPassword()));
+        return token;
     }
 }

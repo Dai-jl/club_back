@@ -1,5 +1,7 @@
 package cn.edu.zucc.djl.club.controller;
 
+import cn.edu.zucc.djl.club.config.PassToken;
+import cn.edu.zucc.djl.club.config.UserLoginToken;
 import cn.edu.zucc.djl.club.entity.CollegeEntity;
 import cn.edu.zucc.djl.club.entity.MemberTableEntity;
 import cn.edu.zucc.djl.club.entity.StudentEntity;
@@ -44,6 +46,7 @@ public class LeaderController {
     }
 
 
+    @UserLoginToken(type ="leader")
     @GetMapping("/member/{id}/{state}")
     @ApiOperation("获得社团成员列表，sx")
     @ApiImplicitParams({
@@ -87,7 +90,7 @@ public class LeaderController {
 
     }
 
-
+    @UserLoginToken(type ="leader")
     @GetMapping("/cancelActivity/{aid}")
     @ApiOperation("取消活动的申请,sx")
     @ApiImplicitParam(name = "aid",value = "社团id",dataType = "int")
@@ -102,7 +105,7 @@ public class LeaderController {
         return succeed;
     }
 
-
+    @UserLoginToken(type ="leader")
     @PostMapping("/editMember")
     @ApiOperation("编辑社团成员信息，sx")
     public int editMember(@RequestBody MemeditForm form){
@@ -112,7 +115,7 @@ public class LeaderController {
         return succeed;
     }
 
-
+    @UserLoginToken(type ="leader")
     @PostMapping("/addmember")
     @ApiOperation("添加社团成员,czq")
     public String addMember(@RequestBody Map<String, String> res){
@@ -150,7 +153,7 @@ public class LeaderController {
         return "添加成功";
     }
 
-
+    @UserLoginToken(type ="leader")
     @PostMapping("/deletemember")
     @ApiOperation("删除社团成员,czq")
     @ResponseBody
@@ -165,7 +168,7 @@ public class LeaderController {
         return "删除成功";
     }
 
-
+    @UserLoginToken(type ="leader")
     @PostMapping("/searchmember")
     @ApiOperation("通过关键字搜索成员列表，czq")
     @ResponseBody
@@ -181,7 +184,7 @@ public class LeaderController {
         return results;
     }
 
-
+    @PassToken
     @PostMapping("/login")
     @ApiOperation("社长登陆，djl")
     public Object login(@RequestBody LoginForm loginForm){
@@ -192,6 +195,7 @@ public class LeaderController {
         StudentEntity studentEntity = studentRepository.getOne(id);
         if(loginForm.getPassword().equals(studentEntity.getPassword())){
             StudentEntity.setCurrentStudent(studentEntity);
+            String token = studentEntity.getToken(studentEntity);
             return new StateResult(200,cid);
         }
 

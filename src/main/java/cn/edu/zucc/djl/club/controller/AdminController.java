@@ -1,5 +1,7 @@
 package cn.edu.zucc.djl.club.controller;
 
+import cn.edu.zucc.djl.club.config.PassToken;
+import cn.edu.zucc.djl.club.config.UserLoginToken;
 import cn.edu.zucc.djl.club.entity.AdminEntity;
 import cn.edu.zucc.djl.club.form.LoginForm;
 import cn.edu.zucc.djl.club.formbean.ActivityResult;
@@ -10,6 +12,7 @@ import cn.edu.zucc.djl.club.repositpories.AdminRespository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
@@ -24,12 +27,13 @@ public class AdminController {
     final AdminRespository adminRespository;
     final ActivityRespository activityRespository;
 
+
     AdminController(AdminRespository adminRespository,ActivityRespository activityRespository){
         this.activityRespository = activityRespository;
         this.adminRespository = adminRespository;
     }
 
-
+@PassToken
     @PostMapping("/login")
     @ApiOperation("管理员登陆,djl")
     public StateResult login(@RequestBody LoginForm loginForm){
@@ -41,12 +45,20 @@ public class AdminController {
         if(loginForm.getPassword().equals(adminEntity.getPassword())){
             AdminEntity.setCurrentAdmin(adminEntity);
             String type = adminEntity.getType();
-            return new StateResult(200,type);
+            String token = adminEntity.getToken(adminEntity);
+            return new StateResult(200,type,token);
         }
         return new StateResult(400);
     }
 
+    //测试token
+//    @UserLoginToken
+//    @GetMapping("/test")
+//    public String test(){
+//        return "ok";
+//    }
 
+    @UserLoginToken(type ="admin")
     @PostMapping("/waittopass")
     @ApiOperation("获得待审核活动列表,djl")
     @ApiImplicitParam(name = "aid",value = "活动id",dataType = "String")
@@ -67,7 +79,7 @@ public class AdminController {
 
     }
 
-
+    @UserLoginToken(type ="admin")
     @PostMapping("/pass")
     @ApiOperation("获得已审核活动列表,djl")
     @ApiImplicitParam(name = "aid",value = "活动id",dataType = "String")
@@ -89,7 +101,7 @@ public class AdminController {
         }
     }
 
-
+    @UserLoginToken(type ="admin")
     @PostMapping("/passactivity")
     @ApiOperation("通过活动,djl")
     public StateResult pass(@RequestParam("aid") int aid,@RequestParam("tid") int tid,@RequestParam("type") String type){
@@ -106,7 +118,7 @@ public class AdminController {
         return new StateResult(400);
     }
 
-
+    @UserLoginToken(type ="admin")
     @PostMapping("/api/admin/cancelactivity")
     @ApiOperation("取消活动,djl")
     public StateResult cancel(@RequestParam("aid") int aid,@RequestParam("tid") int tid,@RequestParam("type") String type,@RequestParam("reason") String reason){

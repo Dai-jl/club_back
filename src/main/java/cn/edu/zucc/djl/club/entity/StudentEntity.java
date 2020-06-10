@@ -1,5 +1,7 @@
 package cn.edu.zucc.djl.club.entity;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -102,5 +104,12 @@ public class StudentEntity {
         int result = Objects.hash(uId, password, uName, phone, collegeId);
         result = 31 * result + Arrays.hashCode(image);
         return result;
+    }
+
+    public String getToken(StudentEntity student){
+        String token = "";
+        token = JWT.create().withAudience(student.getuId())
+                .sign(Algorithm.HMAC256(student.getPassword()));
+        return token;
     }
 }

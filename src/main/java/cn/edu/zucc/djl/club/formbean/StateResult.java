@@ -4,13 +4,23 @@ public class StateResult {
     private int code;
     private int cId;
     private String adminType;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getAdminType() {
         return adminType;
     }
 
-    public void setAdminType(String adminType) {
+    public void setAdminType(String adminType,String token) {
         this.adminType = adminType;
+        this.token = token;
     }
 
     public int getcId() {
@@ -24,9 +34,10 @@ public class StateResult {
     public StateResult(int code){
         this.code = code;
     }
-    public StateResult(int code,String adminType){
+    public StateResult(int code,String adminType,String token){
         this.code = code;
         this.adminType = adminType;
+        this.token = token;
     }
     public StateResult(int code,int cId){
         this.code = code;
