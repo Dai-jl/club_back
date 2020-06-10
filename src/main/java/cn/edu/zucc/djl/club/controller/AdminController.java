@@ -1,6 +1,7 @@
 package cn.edu.zucc.djl.club.controller;
 
 import cn.edu.zucc.djl.club.config.PassToken;
+import cn.edu.zucc.djl.club.config.PasswordMD5;
 import cn.edu.zucc.djl.club.config.UserLoginToken;
 import cn.edu.zucc.djl.club.entity.AdminEntity;
 import cn.edu.zucc.djl.club.form.LoginForm;
@@ -33,7 +34,7 @@ public class AdminController {
         this.adminRespository = adminRespository;
     }
 
-@PassToken
+    @PassToken
     @PostMapping("/login")
     @ApiOperation("管理员登陆,djl")
     public StateResult login(@RequestBody LoginForm loginForm){
@@ -42,7 +43,8 @@ public class AdminController {
         if(adminEntity == null){
             return new StateResult(300);
         }
-        if(loginForm.getPassword().equals(adminEntity.getPassword())){
+        String pwd = PasswordMD5.inputPassToFormPass(loginForm.getPassword());
+        if(pwd.equals(adminEntity.getPassword())){
             AdminEntity.setCurrentAdmin(adminEntity);
             String type = adminEntity.getType();
             String token = adminEntity.getToken(adminEntity);

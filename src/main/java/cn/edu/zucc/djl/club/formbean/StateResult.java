@@ -39,9 +39,10 @@ public class StateResult {
         this.adminType = adminType;
         this.token = token;
     }
-    public StateResult(int code,int cId){
+    public StateResult(int code,int cId,String token){
         this.code = code;
         this.cId = cId;
+        this.token  =token;
     }
     public int getCode(){
         return code;

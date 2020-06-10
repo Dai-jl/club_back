@@ -1,6 +1,7 @@
 package cn.edu.zucc.djl.club.controller;
 
 import cn.edu.zucc.djl.club.config.PassToken;
+import cn.edu.zucc.djl.club.config.PasswordMD5;
 import cn.edu.zucc.djl.club.config.UserLoginToken;
 import cn.edu.zucc.djl.club.entity.CollegeEntity;
 import cn.edu.zucc.djl.club.entity.MemberTableEntity;
@@ -190,13 +191,15 @@ public class LeaderController {
     public Object login(@RequestBody LoginForm loginForm){
         String id = loginForm.getId();
         MemberTableEntity memberTableEntity = memberRepository.findByUId(id);
-        if(memberTableEntity == null || memberTableEntity.getType().equals("member")) return new StateResult(300);
+        if(memberTableEntity == null || memberTableEntity.getType().equals("member"))
+            return new StateResult(300);
         int cid = memberTableEntity.getcId();
         StudentEntity studentEntity = studentRepository.getOne(id);
-        if(loginForm.getPassword().equals(studentEntity.getPassword())){
+        String pwd = PasswordMD5.inputPassToFormPass(loginForm.getPassword());
+        if(pwd.equals(studentEntity.getPassword())){
             StudentEntity.setCurrentStudent(studentEntity);
             String token = studentEntity.getToken(studentEntity);
-            return new StateResult(200,cid);
+            return new StateResult(200,cid,token);
         }
 
         return new StateResult(400);

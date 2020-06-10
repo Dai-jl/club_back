@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 public class AuthenticationInterceptor implements HandlerInterceptor {
     @Autowired
     AdminRespository adminRespository;
+    @Autowired
     StudentRepository studentRepository;
 
     @Override
@@ -71,6 +72,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     return true;
                 }
                 else if(userLoginToken.type().equals("leader")){
+                    System.out.println(userId);
                     StudentEntity user = studentRepository.getOne(userId);
                     if (user == null) {
                         throw new RuntimeException("用户不存在，请重新登录");
