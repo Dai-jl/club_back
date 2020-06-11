@@ -13,6 +13,7 @@ import cn.edu.zucc.djl.club.formbean.StateResult;
 import cn.edu.zucc.djl.club.formbean.StuResult;
 import cn.edu.zucc.djl.club.formbean.Student;
 import cn.edu.zucc.djl.club.repositpories.*;
+import cn.edu.zucc.djl.club.service.Memberservice;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -20,10 +21,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.springframework.beans.BeanUtils;
 
@@ -37,17 +36,19 @@ public class LeaderController {
     final CollegeRepository collegeRepository;
     final ActivityRespository activityRespository;
     final TimetableRepository timetableRepository;
-    LeaderController(MemberRepository memberRepository,StudentRepository studentRepository,CollegeRepository collegeRepository,ActivityRespository activityRespository,TimetableRepository timetableRepository)
+    private Memberservice memberservice;
+    LeaderController(MemberRepository memberRepository,StudentRepository studentRepository,CollegeRepository collegeRepository,ActivityRespository activityRespository,TimetableRepository timetableRepository,Memberservice memberservice)
     {
         this.memberRepository = memberRepository;
         this.studentRepository = studentRepository;
         this.collegeRepository = collegeRepository;
         this.activityRespository = activityRespository;
         this.timetableRepository = timetableRepository;
+        this.memberservice=memberservice;
     }
 
 
-    @UserLoginToken(type ="leader")
+//    @UserLoginToken(type ="leader")
     @GetMapping("/member/{id}/{state}")
     @ApiOperation("获得社团成员列表，sx")
     @ApiImplicitParams({
@@ -58,10 +59,15 @@ public class LeaderController {
     public List<StuResult> listAllMember(@PathVariable int id,@PathVariable int state) throws Exception {
         //优化使用多表查询，使性能提高
         //分页在前端进行模拟
-        List<Object[]> memberMsg = memberRepository.getMemList(id, state);
-
-        List<StuResult> results = StuResult.objectToBean(memberMsg, StuResult.class);
-        System.out.println(results.size());
+    //    List<Object[]> memberMsg = memberRepository.getMemList(id, state);
+        System.out.println(id+"id");
+        System.out.println(state+"state");
+        long start = System.currentTimeMillis();
+        List<Object[]> re=memberRepository.getMemList(id, state);
+        System.out.println(re.get(0));
+        List<StuResult> results = memberservice.getMemberList(id, state);
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
         return results;
 
         //简单循环
@@ -119,40 +125,38 @@ public class LeaderController {
     @UserLoginToken(type ="leader")
     @PostMapping("/addmember")
     @ApiOperation("添加社团成员,czq")
-    public String addMember(@RequestBody Map<String, String> res){
-        StudentEntity studentEntity=new StudentEntity();
-        String uid=res.get("number");
-        studentEntity=studentRepository.getOne(uid);
+    public String addMember(@RequestBody Map<String, String> res) {
+        new StudentEntity();
+        String uid = (String)res.get("number");
+                int cid = Integer.parseInt((String)res.get("cid"));
+                String[] numbers = uid.split("、");
+                System.out.print(numbers.length);
 
-        if (studentEntity!=null&&uid!=""){
-            int cid = Integer.parseInt(res.get("cid"));
-            System.out.println(cid+"fdfdfdf"+uid);
-            if (memberRepository.existsMember(cid,uid)==null){
-                System.out.println(memberRepository.existsMember(cid,uid));
-                MemberTableEntity memberTableEntity=new MemberTableEntity();
-                memberTableEntity.setcId(cid);
-                memberTableEntity.setType("member");
-                memberTableEntity.setuId(res.get("number"));
-                memberTableEntity.setState(1);
-                Date now = new Date();
-                memberTableEntity.setJoinDate(now);
-                try{
-                    memberRepository.save(memberTableEntity);
-                }
-                catch (Exception e){
-                    return "添加失败";
-                }
-           }
+                for(int u = 0; u < numbers.length; ++u) {
+                    if (numbers[u] != "" && numbers[u] != " " && numbers[u] != null) {
+                        Optional<StudentEntity> studentEntity = studentRepository.findById(numbers[u]);
+                        if (studentEntity == null || numbers[u] == "") {
+                            return "学生" + numbers[u] + "不存在";
+                        }
 
-            else{
-                return "该学生已经加入社团";
+                        System.out.println(numbers[u]);
+                        if (this.memberRepository.existsMember(cid, numbers[u]) != null) {
+                            return "学生" + numbers[u] + "已经加入社团";
+                        }
+                if (u == 0) {
+                    this.memberservice.addMember(cid);
+                }
+                try {
+                    this.memberRepository.insertMember(numbers[u], cid);
+                }
+             catch (Exception e) {
+                return "添加学生" + numbers[u] + "失败";
             }
         }
-        else{
-            return "该学生不存在";
-        }
-        return "添加成功";
     }
+
+        return "添加成功";
+}
 
     @UserLoginToken(type ="leader")
     @PostMapping("/deletemember")
@@ -161,7 +165,7 @@ public class LeaderController {
     public String deleteMember(@RequestBody Map<String, String> res){
         try {
             int cid=Integer.parseInt(res.get("cid"));
-            memberRepository.updatestate(cid,res.get("uid"));
+            memberservice.deleteMember(cid, res.get("uid"));
         }
         catch (Exception e){
             return "删除失败";
@@ -180,6 +184,13 @@ public class LeaderController {
         if (res.get("collegename").equals(""))
             collegename="%%";
         String joindate=res.get("joindate");
+        System.out.print(joindate + "fdsfsdf");
+        if (joindate==null||joindate.equals("")) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            joindate = format.format(new Date());
+        }
+
+        System.out.print(joindate);
         List<Object[]> memberMsg = memberRepository.searchMember(cid,username,collegename,joindate);
         List<StuResult> results=StuResult.objectToBean(memberMsg,StuResult.class);
         return results;

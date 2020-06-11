@@ -17,7 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 
 @CrossOrigin
@@ -121,7 +124,7 @@ public class AdminController {
     }
 
     @UserLoginToken(type ="admin")
-    @PostMapping("/api/admin/cancelactivity")
+    @PostMapping("/cancelactivity")
     @ApiOperation("取消活动,djl")
     public StateResult cancel(@RequestParam("aid") int aid,@RequestParam("tid") int tid,@RequestParam("type") String type,@RequestParam("reason") String reason){
         if(type.equals("class")){
@@ -135,6 +138,79 @@ public class AdminController {
         return new StateResult(400);
     }
 
+//    @UserLoginToken(type ="admin")
+    @ApiOperation("搜索未审核活动,czq")
+    @PostMapping("/searchwaittopassa")
+    @CrossOrigin
+    public List<AdminActivity> searchWaitToPass(@RequestBody Map<String,String> res){
+        List<Object[]> result = null;
+        String a="%"+res.get("activityname")+"%";
+        String c="%"+res.get("clubname")+"%";
+        String s=res.get("startdate");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (res.get("startdate").equals("")){
+            Calendar calendar = Calendar.getInstance();
+            // System.out.println(format.format(calendar.getTime()));
+            calendar.add(Calendar.DAY_OF_YEAR, 100);
+            //    System.out.println(format.format(calendar.getTime()));
+            s=format.format(calendar.getTime());
+        }
 
+        System.out.println(a);
+        System.out.println(c);
+        System.out.println(s);
+        if(res.get("type").equals("activity"))
+            result = activityRespository.searchActivitiesWait(res.get("aid"),c,a,s);
+
+        else {
+            result = activityRespository.searchClassroomsWait(res.get("aid"),c,a,s);
+        }
+        try{
+            List<AdminActivity> list = ActivityResult.objectToBean(result, AdminActivity.class);
+            return list;
+        }catch (Exception e){
+            return null;
+        }
+
+    }
+
+//    @UserLoginToken(type ="admin")
+    @ApiOperation("搜索已审核活动,czq")
+    @PostMapping("/searchpassa")
+    @CrossOrigin
+    public List<AdminActivity> searchPass(@RequestBody Map<String,String> res){
+
+        List<Object[]> result = null;
+        String a="%"+res.get("activityname")+"%";
+        String c="%"+res.get("clubname")+"%";
+        String s=res.get("startdate");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (res.get("startdate").equals("")){
+
+            Calendar calendar = Calendar.getInstance();
+            // System.out.println(format.format(calendar.getTime()));
+            calendar.add(Calendar.DAY_OF_YEAR, 100);
+            //    System.out.println(format.format(calendar.getTime()));
+            s=format.format(calendar.getTime());
+        }
+
+        System.out.println(a);
+        System.out.println(c);
+        System.out.println(s);
+
+        if(res.get("type").equals("activity"))
+            result = activityRespository.searchActivities(res.get("aid"),c,a,s);
+
+        else {
+            result = activityRespository.searchClassrooms(res.get("aid"),c,a,s);
+        }
+        try{
+            List<AdminActivity> list = ActivityResult.objectToBean(result, AdminActivity.class);
+            return list;
+        }catch (Exception e){
+            return null;
+        }
+
+    }
 
 }

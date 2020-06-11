@@ -17,6 +17,12 @@ public interface MemberRepository extends JpaRepository<MemberTableEntity,Intege
 //    @Modifying
 //    List<MemberTableEntity> getMemList(int cid,int startIndex);
 
+
+    @Transactional
+    @Query(value = "INSERT into member_table(c_id,u_id,type,join_date,state) VALUES(?2,?1,\"member\",NOW(),1)",nativeQuery = true)
+    @Modifying
+    void insertMember(String uid,int cid);
+
     @Transactional
     @Query(value = "select * from member_table where u_id = ?1 and type = 'leader'",nativeQuery = true)
     MemberTableEntity findByUId(String id);

@@ -107,4 +107,43 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
     @Query(value = "update timetable set state = 0,reason = ?2 where t_id=?1 ",nativeQuery = true)
     @Modifying
     int toCancelAddress(int tid,String reason);
+
+    //活动未审核搜索
+    @Query(value = "select \n" +
+            "            a.start_time,a.end_time,a.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
+            "            from activity_detail as a \n" +
+            "            where a.a_pass is null and a.admin_id = ?1 and a.activity_name like ?3 and a.club_name like ?2 and a.start_time < ?4",nativeQuery = true)
+    List<Object[]> searchActivitiesWait (String adminid,String clubname,String activityname,String startdate);
+
+    //活动已审核搜索
+    @Query(value = "select \n" +
+            "            a.start_time,a.end_time,a.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
+            "            from activity_detail as a \n" +
+            "            where a.a_pass is not null and a.admin_id = ?1 and a.activity_name like ?3 and a.club_name like ?2 and a.start_time < ?4",nativeQuery = true)
+
+    List<Object[]> searchActivities (String adminid,String clubname,String activityname,String startdate);
+
+    //地点未审核搜索
+    @Transactional
+    @Query(value = "select \n" +
+            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
+            "from \n" +
+            "timetable_detail as t \n" +
+            "left join \n" +
+            "activity_detail as a on \n" +
+            "t.a_id = a.a_id\n" +
+            "where t.state is null and t.admin_id = ?1 and a.club_name like ?2 and a.activity_name like ?3 and t.start_time < ?4",nativeQuery = true)
+    List<Object[]>  searchClassroomsWait(String aid,String clubname,String activityname,String startdate);
+
+    //地点已审核搜索
+    @Transactional
+    @Query(value = "select \n" +
+            "t.t_id,t.start_time,t.end_time,t.class_name,t.state,t.reason,t.a_id,a.activity_name,a.club_name,a.number,a.budget,a.detial,a.image,a.limitt,a.college_name,a.a_pass\n" +
+            "from \n" +
+            "timetable_detail as t \n" +
+            "left join \n" +
+            "activity_detail as a on \n" +
+            "t.a_id = a.a_id\n" +
+            "where t.state is not null and t.admin_id = ?1 and a.club_name like ?2 and a.activity_name like ?3 and t.start_time < ?4",nativeQuery = true)
+    List<Object[]>  searchClassrooms(String aid,String clubname,String activityname,String startdate);
 }
