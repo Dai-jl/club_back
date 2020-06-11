@@ -106,8 +106,11 @@ public class LeaderController {
         int succeed;
 
         succeed=activityRespository.cancelActivity1(aid);
-        if(succeed==1)
+
+        List<Object[]> wait=timetableRepository.getWait(aid);
+        if(wait.size()>0 && succeed==1){
             succeed=timetableRepository.cancelActivity2(aid);
+        }
 
         return succeed;
     }

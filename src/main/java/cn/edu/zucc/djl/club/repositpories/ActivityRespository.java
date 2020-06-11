@@ -38,7 +38,7 @@ public interface ActivityRespository extends JpaRepository<ActivityEntity,Intege
 
     //取消活动申请,修改activity的b_pass状态
     @Transactional
-    @Query(value = "update activity set b_pass=0 where a_id = ?1",nativeQuery = true)
+    @Query(value = "update activity set b_pass=0,a_pass=0 where a_id = ?1",nativeQuery = true)
     @Modifying
     int cancelActivity1(int aid);
 
