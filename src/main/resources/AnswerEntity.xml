@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="cn.edu.zucc.czq.graduate.entity.AnswerEntity">
+        <table name="answer" schema="deal" catalog=""/>
+        <attributes>
+            <id name="iid">
+                <column name="iid" precision="11"/>
+            </id>
+            <basic name="qid">
+                <column name="qid" nullable="false"/>
+            </basic>
+            <basic name="uid">
+                <column name="uid" nullable="false" precision="11"/>
+            </basic>
+            <basic name="content">
+                <column name="content" nullable="false"/>
+            </basic>
+            <basic name="like">
+                <column name="like" nullable="false"/>
+            </basic>
+            <basic name="dislike">
+                <column name="dislike" nullable="false"/>
+            </basic>
+            <basic name="picture">
+                <column name="picture" nullable="false"/>
+            </basic>
+            <basic name="time">
+                <column name="time" nullable="false" precision="-1"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
